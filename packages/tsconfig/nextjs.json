@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Next.js",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "typeRoots": ["node_modules/@types", "./types"],
+    "baseUrl": ".",
+    "paths": {
+      "@components": ["components"],
+      "@components/*": ["components/*"],
+      "@atoms/*": ["components/atoms/*"],
+      "@molecules/*": ["components/molecules/*"],
+      "@organisms/*": ["components/organisms/*"],
+      "@templates": ["templates"],
+      "@templates/*": ["templates/*"],
+      "@constants": ["constants"],
+      "@constants/*": ["constants/*"],
+      "@config": ["config"],
+      "@config/*": ["config/*"],
+      "@assets": ["assets"],
+      "@assets/*": ["assets/*"],
+      "@hooks": ["hooks"],
+      "@hooks/*": ["hooks/*"],
+      "@styles": ["styles"],
+      "@styles/*": ["styles/*"],
+      "@types/*": ["types/*"],
+      "@themes": ["themes"],
+      "@themes/*": ["themes/*"],
+      "@util": ["util"],
+      "@util/*": ["util/*"],
+      "@pages/*": ["pages/*"],
+      "@recoilState": ["recoilState"],
+      "@recoilState/*": ["recoilState/*"],
+      "@api/*": ["api/*"]
+    },
+    "lib": ["dom", "dom.iterable", "esnext"]
+  }
+}
