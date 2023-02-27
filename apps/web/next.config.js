@@ -6,11 +6,10 @@ const nextConfig = {
   compress: true,
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
-    // prependData: `@import "styles/_variables.scss";`,
   },
-  // images: {
-  //   domains: ['firebasestorage.googleapis.com'],
-  // },
+  images: {
+    domains: ['firebasestorage.googleapis.com'],
+  },
   i18n: {
     locales: ['ko'],
     defaultLocale: 'ko',

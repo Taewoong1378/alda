@@ -8,9 +8,6 @@
     "paths": {
       "@components": ["components"],
       "@components/*": ["components/*"],
-      "@atoms/*": ["components/atoms/*"],
-      "@molecules/*": ["components/molecules/*"],
-      "@organisms/*": ["components/organisms/*"],
       "@templates": ["templates"],
       "@templates/*": ["templates/*"],
       "@constants": ["constants"],
@@ -26,12 +23,13 @@
       "@types/*": ["types/*"],
       "@themes": ["themes"],
       "@themes/*": ["themes/*"],
-      "@util": ["util"],
-      "@util/*": ["util/*"],
+      "@utils": ["utils"],
+      "@utils/*": ["utils/*"],
       "@pages/*": ["pages/*"],
       "@recoilState": ["recoilState"],
       "@recoilState/*": ["recoilState/*"],
-      "@api/*": ["api/*"]
+      "@apis": ["apis"],
+      "@apis/*": ["apis/*"]
     },
     "lib": ["dom", "dom.iterable", "esnext"]
   }

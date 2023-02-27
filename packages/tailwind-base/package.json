@@ -1,0 +1,24 @@
+{
+  "name": "tailwind-base",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.20.2",
+    "@babel/eslint-parser": "^7.19.1",
+    "@babel/plugin-transform-runtime": "^7.19.6",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.18.6",
+    "autoprefixer": "^10.4.8",
+    "postcss-import": "^14.1.0",
+    "tailwind-scrollbar-hide": "^1.1.7",
+    "tailwindcss": "^3.1.8",
+    "tailwindcss-animation-delay": "^1.0.7",
+    "tailwindcss-textshadow": "^2.1.3"
+  }
+}

@@ -1,0 +1,50 @@
+module.exports = {
+  transparent: 'transparent',
+  'border-color': 'rgba(13, 19, 23, 0.16)',
+
+  /** @new 새롭게 사용되는 컬러값입니다. */
+  primary: '#FFD547',
+  'primary-200': '#FFDF7E',
+  'primary-600': '#FFC000',
+
+  yellow: '#FFD547',
+  'yellow-50': '#FFF6DA',
+  'yellow-100': '#FFECB1',
+  'yellow-200': '#FFDF7E',
+  'yellow-600': '#FFC000',
+  'yellow-800': '#FFB100',
+
+  red: '#FD7857',
+  'red-50': '#FFCDBE',
+  'red-100': '#FFAC95',
+  'red-200': '#FF987E',
+  'red-600': '#F65129',
+  'red-800': '#E83D13',
+
+  green: '#26C582',
+  'green-50': '#E5F5EC',
+  'green-100': '#C5EEDD',
+  'green-200': '#7FDBB4',
+  'green-600': '#00A05D',
+  'green-800': '#068851',
+
+  gray: '#C0C0C0',
+  'gray-100': '#FAFAFA',
+  'gray-150': '#F6F6F6',
+  'gray-200': '#F0F0F0',
+  'gray-250': '#E7E7E7',
+  'gray-300': '#DBDBDB',
+  'gray-350': '#CCCCCC',
+  'gray-400': '#C0C0C0',
+  'gray-600': '#828282',
+  'gray-650': '#6B6B6B',
+  'gray-700': '#5C5C5C',
+  'gray-750': '#4D4D4D',
+  'gray-800': '#3D3D3D',
+  'gray-850': '#2B2929',
+  'gray-900': '#1D1D1D',
+
+  shadow: 'rgba(0, 0, 0, 0.4)',
+  black: '#000000',
+  white: '#FFFFFF',
+};

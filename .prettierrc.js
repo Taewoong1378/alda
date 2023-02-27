@@ -28,9 +28,9 @@ const tsOption = {
   importOrder: [
     '^re(.*)$',
     '<THIRD_PARTY_MODULES>',
-    '^@(?:components|atoms|molecules|organisms|templates|pages|containers)(.*)$',
+    '^@(?:components|templates|pages|containers)(.*)$',
     '^@(?:apis|interfaces|config)(.*)$',
-    '^@(?:assets|constants|hooks|styles|util)(.*)$',
+    '^@(?:assets|constants|hooks|styles|utils)(.*)$',
     '^[./]',
   ],
   plugins: [mixedPlugin],
