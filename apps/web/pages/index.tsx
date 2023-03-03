@@ -1,10 +1,7 @@
-import { Button } from "ui";
-
-export default function Docs() {
+export default function HomePage() {
   return (
-    <div>
-      <h1>Docs</h1>
-      <Button />
-    </div>
+    <main>
+      <div className='text-AX5-Headline'>Docs</div>
+    </main>
   );
 }
