@@ -18,4 +18,6 @@ module.exports = {
     2: '#636366',
     1: '#8E8E93',
   },
+  black: '#000000',
+  white: '#FFFFFF',
 };
