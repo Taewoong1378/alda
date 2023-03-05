@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import { useWindowSize } from '@util';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useRouter } from 'next/router';
 
@@ -8,6 +9,8 @@ import { SignUp } from '@templates';
 import { auth } from '@config';
 
 export default function SignupPage() {
+  const { height } = useWindowSize();
+
   const router = useRouter();
 
   useEffect(() => {
@@ -20,7 +23,7 @@ export default function SignupPage() {
   }, []);
 
   return (
-    <main>
+    <main style={{ height }}>
       <SignUp />
     </main>
   );

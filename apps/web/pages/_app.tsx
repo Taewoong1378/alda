@@ -5,8 +5,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 
-import { BottomNavbar } from '@components';
-
 import '../styles/scss/globals.scss';
 import '../styles/scss/tailwind.scss';
 
@@ -37,10 +35,7 @@ function MyApp(props: AppProps) {
     <QueryClientProvider client={queryClientRef.current}>
       <RecoilRoot>
         <div id='portal'></div>
-        <>
-          <Component {...pageProps} />
-          {!noBottomNavbar && <BottomNavbar />}
-        </>
+        <Component {...pageProps} />
       </RecoilRoot>
     </QueryClientProvider>
   );
