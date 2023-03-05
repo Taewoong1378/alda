@@ -18,12 +18,13 @@ const firebaseConfig = {
 // Your web app's Firebase configuration
 const backupFirebaseConfig = {
   // KEY값 입력
-  // apiKey: '',
-  // authDomain: '',
-  // projectId: '',
-  // storageBucket: '',
-  // messagingSenderId: '',
-  // appId: '',
+  apiKey: 'AIzaSyBY4NKBf6D6_8ZIp6gQ8r2SSCuMEXF5RxI',
+  authDomain: 'alda-2fa29.firebaseapp.com',
+  projectId: 'alda-2fa29',
+  storageBucket: 'alda-2fa29.appspot.com',
+  messagingSenderId: '538747837663',
+  appId: '1:538747837663:web:e19e0f9ab2ef327d325d6a',
+  measurementId: 'G-DXR1M5FY5Z',
 };
 
 // Initialize Firebase
