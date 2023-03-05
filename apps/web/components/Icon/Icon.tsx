@@ -1,9 +1,25 @@
 import { Colors } from '@styles';
 
+import BottomChattingOff from '../../assets/icon/bottom-chatting-off.svg';
 import BottomChattingOn from '../../assets/icon/bottom-chatting-on.svg';
+import BottomHomeOff from '../../assets/icon/bottom-home-off.svg';
+import BottomHomeOn from '../../assets/icon/bottom-home-on.svg';
+import BottomRecordingOff from '../../assets/icon/bottom-recording-off.svg';
+import BottomRecordingOn from '../../assets/icon/bottom-recording-on.svg';
+import BottomSettingsOff from '../../assets/icon/bottom-settings-off.svg';
+import BottomSettingsOn from '../../assets/icon/bottom-settings-on.svg';
+import RightDirection from '../../assets/icon/right-direction.svg';
 
 export const image = {
+  RightDirection,
   BottomChattingOn,
+  BottomChattingOff,
+  BottomHomeOn,
+  BottomHomeOff,
+  BottomRecordingOn,
+  BottomRecordingOff,
+  BottomSettingsOn,
+  BottomSettingsOff,
 };
 
 export type IconType = keyof typeof image;
@@ -11,17 +27,12 @@ export type IconType = keyof typeof image;
 export interface IconProps {
   icon: IconType;
   color?: keyof typeof Colors;
-  hasBackground?: {
-    backgroundColor?: keyof typeof Colors;
-    borderRadius?: number;
-    size: number;
-  };
   size: number;
   width?: number;
   height?: number;
 }
 
-export const Icon = ({ icon, size, color = 'white', hasBackground, width, height }: IconProps) => {
+export const Icon = ({ icon, size, color = 'white', width, height }: IconProps) => {
   const SvgIcon = image[icon];
   const renderIcon = () => {
     return (
@@ -43,21 +54,5 @@ export const Icon = ({ icon, size, color = 'white', hasBackground, width, height
     );
   };
 
-  if (hasBackground) {
-    const { backgroundColor, borderRadius, size } = hasBackground;
-
-    const backgroundStyle = {
-      width: size,
-      height: size,
-      borderRadius: borderRadius || '50%',
-      backgroundColor: Colors[backgroundColor || 'yellow'],
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    };
-
-    return <div style={backgroundStyle}>{renderIcon()}</div>;
-  } else {
-    return <>{renderIcon()}</>;
-  }
+  return <>{renderIcon()}</>;
 };
