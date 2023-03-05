@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { useSetRecoilState } from 'recoil';
 
-import { isLoggedInState } from '@recoilState';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
 import { Input } from '@components';
@@ -14,8 +12,6 @@ export const SignUp = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
-  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-
   const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -25,7 +21,6 @@ export const SignUp = () => {
         await updateProfile(auth.currentUser, {
           displayName: `${firstName} ${lastName}`,
         });
-        setIsLoggedIn(true);
       }
     } catch (error) {
       console.error(error);
