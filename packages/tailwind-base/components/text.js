@@ -1,72 +1,4 @@
 module.exports = {
-  AX5: {
-    '.text-AX5-Large': {
-      fontFamily: 'SF Pro',
-      fontSize: '60px',
-      fontWeight: 400,
-      lineHeight: '70px',
-    },
-    '.text-AX5-Title1': {
-      fontFamily: 'SF Pro',
-      fontSize: '58px',
-      fontWeight: 400,
-      lineHeight: '68px',
-    },
-    '.text-AX5-Title2': {
-      fontFamily: 'SF Pro',
-      fontSize: '56px',
-      fontWeight: 400,
-      lineHeight: '66px',
-    },
-    '.text-AX5-Title3': {
-      fontFamily: 'SF Pro',
-      fontSize: '55px',
-      fontWeight: 400,
-      lineHeight: '65px',
-    },
-    '.text-AX5-Headline': {
-      fontFamily: 'SF Pro',
-      fontSize: '53px',
-      fontWeight: 600,
-      lineHeight: '62px',
-    },
-    '.text-AX5-Body': {
-      fontFamily: 'SF Pro',
-      fontSize: '53px',
-      fontWeight: 400,
-      lineHeight: '62px',
-    },
-    '.text-AX5-Callout': {
-      fontFamily: 'SF Pro',
-      fontSize: '51px',
-      fontWeight: 400,
-      lineHeight: '60px',
-    },
-    '.text-AX5-Subhead': {
-      fontFamily: 'SF Pro',
-      fontSize: '49px',
-      fontWeight: 400,
-      lineHeight: '58px',
-    },
-    '.text-AX5-Footnote': {
-      fontFamily: 'SF Pro',
-      fontSize: '44px',
-      fontWeight: 400,
-      lineHeight: '52px',
-    },
-    '.text-AX5-Caption1': {
-      fontFamily: 'SF Pro',
-      fontSize: '43px',
-      fontWeight: 400,
-      lineHeight: '51px',
-    },
-    '.text-AX5-Caption2': {
-      fontFamily: 'SF Pro',
-      fontSize: '40px',
-      fontWeight: 400,
-      lineHeight: '48px',
-    },
-  },
   AX4: {
     '.text-AX4-Large': {
       fontFamily: 'SF Pro',
@@ -113,7 +45,7 @@ module.exports = {
     '.text-AX4-Subhead': {
       fontFamily: 'SF Pro',
       fontSize: '42px',
-      fontWeight: 400,
+      fontWeight: 600,
       lineHeight: '50px',
     },
     '.text-AX4-Footnote': {
@@ -133,142 +65,6 @@ module.exports = {
       fontSize: '34px',
       fontWeight: 400,
       lineHeight: '41px',
-    },
-  },
-  AX3: {
-    '.text-AX3-Large': {
-      fontFamily: 'SF Pro',
-      fontSize: '52px',
-      fontWeight: 400,
-      lineHeight: '61px',
-    },
-    '.text-AX3-Title1': {
-      fontFamily: 'SF Pro',
-      fontSize: '48px',
-      fontWeight: 400,
-      lineHeight: '57px',
-    },
-    '.text-AX3-Title2': {
-      fontFamily: 'SF Pro',
-      fontSize: '44px',
-      fontWeight: 400,
-      lineHeight: '52px',
-    },
-    '.text-AX3-Title3': {
-      fontFamily: 'SF Pro',
-      fontSize: '43px',
-      fontWeight: 400,
-      lineHeight: '51px',
-    },
-    '.text-AX3-Headline': {
-      fontFamily: 'SF Pro',
-      fontSize: '40px',
-      fontWeight: 600,
-      lineHeight: '48px',
-    },
-    '.text-AX3-Body': {
-      fontFamily: 'SF Pro',
-      fontSize: '40px',
-      fontWeight: 400,
-      lineHeight: '48px',
-    },
-    '.text-AX3-Callout': {
-      fontFamily: 'SF Pro',
-      fontSize: '38px',
-      fontWeight: 400,
-      lineHeight: '46px',
-    },
-    '.text-AX3-Subhead': {
-      fontFamily: 'SF Pro',
-      fontSize: '36px',
-      fontWeight: 400,
-      lineHeight: '43px',
-    },
-    '.text-AX3-Footnote': {
-      fontFamily: 'SF Pro',
-      fontSize: '33px',
-      fontWeight: 400,
-      lineHeight: '40px',
-    },
-    '.text-AX3-Caption1': {
-      fontFamily: 'SF Pro',
-      fontSize: '32px',
-      fontWeight: 400,
-      lineHeight: '39px',
-    },
-    '.text-AX3-Caption2': {
-      fontFamily: 'SF Pro',
-      fontSize: '29px',
-      fontWeight: 400,
-      lineHeight: '35px',
-    },
-  },
-  AX2: {
-    '.text-AX2-Large': {
-      fontFamily: 'SF Pro',
-      fontSize: '49px',
-      fontWeight: 400,
-      lineHeight: '57px',
-    },
-    '.text-AX2-Title1': {
-      fontFamily: 'SF Pro',
-      fontSize: '43px',
-      fontWeight: 400,
-      lineHeight: '51px',
-    },
-    '.text-AX2-Title2': {
-      fontFamily: 'SF Pro',
-      fontSize: '43px',
-      fontWeight: 400,
-      lineHeight: '51px',
-    },
-    '.text-AX2-Title3': {
-      fontFamily: 'SF Pro',
-      fontSize: '43px',
-      fontWeight: 400,
-      lineHeight: '51px',
-    },
-    '.text-AX2-Headline': {
-      fontFamily: 'SF Pro',
-      fontSize: '33px',
-      fontWeight: 600,
-      lineHeight: '40px',
-    },
-    '.text-AX2-Body': {
-      fontFamily: 'SF Pro',
-      fontSize: '33px',
-      fontWeight: 400,
-      lineHeight: '40px',
-    },
-    '.text-AX2-Callout': {
-      fontFamily: 'SF Pro',
-      fontSize: '32px',
-      fontWeight: 400,
-      lineHeight: '39px',
-    },
-    '.text-AX2-Subhead': {
-      fontFamily: 'SF Pro',
-      fontSize: '30px',
-      fontWeight: 400,
-      lineHeight: '37px',
-    },
-    '.text-AX2-Footnote': {
-      fontFamily: 'SF Pro',
-      fontSize: '28px',
-      fontWeight: 400,
-      lineHeight: '33px',
-    },
-    '.text-AX2-Caption1': {
-      fontFamily: 'SF Pro',
-      fontSize: '26px',
-      fontWeight: 400,
-      lineHeight: '32px',
-    },
-    '.text-AX2-Caption2': {
-      fontFamily: 'SF Pro',
-      fontSize: '24px',
-      fontWeight: 400,
-      lineHeight: '30px',
     },
   },
   AX1: {
@@ -317,7 +113,7 @@ module.exports = {
     '.text-AX1-Subhead': {
       fontFamily: 'SF Pro',
       fontSize: '25px',
-      fontWeight: 400,
+      fontWeight: 600,
       lineHeight: '31px',
     },
     '.text-AX1-Footnote': {

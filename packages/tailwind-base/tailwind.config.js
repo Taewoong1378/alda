@@ -39,8 +39,7 @@ module.exports = {
     },
     colors,
     fontFamily: {
-      Tmoney: ['TmoneyRoundWindExtraBold'],
-      Pretendard: ['Pretendard Variable'],
+      SFPro: ['SF Pro'],
     },
     fontWeight: {
       regular: '400',
@@ -70,10 +69,7 @@ module.exports = {
         '.x-scroll-touchable': {
           '-webkit-transform': 'translateZ(0)',
         },
-        ...text.AX5,
         ...text.AX4,
-        ...text.AX3,
-        ...text.AX2,
         ...text.AX1,
         ...reusable,
       });
