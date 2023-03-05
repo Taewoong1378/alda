@@ -8,7 +8,7 @@ export const Settings = () => {
 
   const logout = async () => {
     await signOut(auth);
-    router.replace('/login');
+    router.replace('/');
   };
 
   return (

@@ -28,7 +28,7 @@ export const SignUp = () => {
   };
 
   return (
-    <form onSubmit={handleSignUp}>
+    <form onSubmit={handleSignUp} className='px-30 pt-30'>
       <Input label='Email' type='email' value={email} onChange={e => setEmail(e.target.value)} />
       <Input
         label='Password'

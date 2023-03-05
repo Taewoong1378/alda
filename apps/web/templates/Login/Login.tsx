@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import { Icon, Input } from '@components';
 
@@ -12,6 +13,8 @@ const emailRegexp = new RegExp(
 );
 
 export const Login = () => {
+  const router = useRouter();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -41,8 +44,15 @@ export const Login = () => {
             type='password'
             value={password}
             onChange={e => setPassword(e.target.value)}
-            message={password.length < 6 ? 'Password must be at least 6 characters' : ''}
+            message={
+              password.length < 6
+                ? 'Password must be at least 6 characters'
+                : 'Password is now valid'
+            }
           />
+        </div>
+        <div className='ml-12 mt-10 flex w-full items-start'>
+          <button onClick={() => router.push('/signup')}>Sign up</button>
         </div>
       </div>
       <div className='flex w-full justify-end'>
