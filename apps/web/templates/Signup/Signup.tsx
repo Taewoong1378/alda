@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
 import { Input } from '@components';
 
-import { auth } from '@config';
+import { auth, db } from '@config';
 
 export const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -20,6 +21,12 @@ export const SignUp = () => {
       if (auth.currentUser) {
         await updateProfile(auth.currentUser, {
           displayName: `${firstName} ${lastName}`,
+        });
+
+        await setDoc(doc(db, 'User', auth.currentUser.uid), {
+          email,
+          firstName,
+          lastName,
         });
       }
     } catch (error) {
