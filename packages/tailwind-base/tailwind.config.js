@@ -56,7 +56,7 @@ module.exports = {
         xl: '16px',
         xxl: '100px',
       },
-      spacing: createSize(70),
+      spacing: createSize(100),
       transitionProperty: {
         position: 'top, left, right, bottom',
       },
