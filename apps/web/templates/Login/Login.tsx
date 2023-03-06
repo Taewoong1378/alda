@@ -1,10 +1,11 @@
 import { useState } from 'react';
 
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useWindowSize } from '@util';
+import { sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { Icon, Input } from '@components';
+import { Icon, Input, Portal } from '@components';
 
 import { auth } from '@config';
 
@@ -15,8 +16,14 @@ const emailRegexp = new RegExp(
 export const Login = () => {
   const router = useRouter();
 
+  const { height } = useWindowSize();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const [passwordResetEmail, setPasswordResetEmail] = useState('');
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleLogin = async () => {
     try {
@@ -28,7 +35,9 @@ export const Login = () => {
 
   return (
     <>
-      <div className='px-49 bg-primary-100 pt-30 flex h-[80%] flex-col items-center rounded-bl-[50px] bg-opacity-50'>
+      <div
+        className='px-49 bg-primary-100 pt-30 relative flex flex-col items-center rounded-bl-[50px] bg-opacity-50'
+        style={{ height: height - 150 }}>
         <div className='text-grey-2 text-AX1-Caption2 mb-20'>Log in</div>
         <Image src='/Logo.png' width={60} height={60} layout='fixed' alt='alda-logo' />
         <div className='gap-45 mt-40 flex w-full flex-col'>
@@ -54,6 +63,12 @@ export const Login = () => {
         <div className='ml-12 mt-10 flex w-full items-start'>
           <button onClick={() => router.push('/signup')}>Sign up</button>
         </div>
+        <div className='absolute bottom-60 flex w-full justify-center'>
+          <Image src='/exclamation-mark.png' width={30} height={30} layout='fixed' />
+          <button className='ml-6' onClick={() => setModalVisible(true)}>
+            <div className='text-AX1-Subhead underline'>Forgot Password</div>
+          </button>
+        </div>
       </div>
       <div className='flex w-full justify-end'>
         <button
@@ -68,6 +83,33 @@ export const Login = () => {
           </div>
         </button>
       </div>
+      {modalVisible && (
+        <Portal onClickBackground={() => setModalVisible(false)}>
+          <div
+            className='absolute flex h-full w-full items-center justify-center'
+            onClick={() => setModalVisible(false)}>
+            <div
+              className='shadow-1 px-42 flex w-fit flex-col items-center rounded-xl bg-white py-28'
+              onClick={e => e.stopPropagation()}>
+              <div className='text-AX1-Caption1 mt-2 mb-5'>Send a password reset email.</div>
+              <div className='text-AX1-Caption2 mb-5'>Please enter your email</div>
+              <Input
+                value={passwordResetEmail}
+                onChange={e => setPasswordResetEmail(e.target.value)}
+              />
+              <button
+                className='text-T6 mt-10 text-yellow-600'
+                onClick={() => {
+                  sendPasswordResetEmail(auth, passwordResetEmail);
+                  setModalVisible(false);
+                  alert('Email has been sent');
+                }}>
+                Send
+              </button>
+            </div>
+          </div>
+        </Portal>
+      )}
     </>
   );
 };
