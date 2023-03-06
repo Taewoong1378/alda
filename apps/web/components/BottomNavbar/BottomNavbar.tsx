@@ -46,7 +46,10 @@ export const BottomNavbar = () => {
 
   return (
     <div
-      className={`border-t-grey-6 border-t-1 fixed bottom-0 right-1/2 z-[200] flex h-[${BOTTOM_NAVBAR_HEIGHT}px] w-full max-w-[598px] translate-x-1/2 justify-evenly bg-[rgba(0,0,0,0.09)]`}>
+      className={`border-t-grey-6 border-t-1 fixed bottom-0 right-1/2 z-[200] flex w-full max-w-[598px] translate-x-1/2 justify-evenly bg-[rgba(0,0,0,0.09)]`}
+      style={{
+        height: BOTTOM_NAVBAR_HEIGHT,
+      }}>
       {ItemArray.map((item, index) => {
         const isSelected = isSelectedFunc(item.path);
         return (
