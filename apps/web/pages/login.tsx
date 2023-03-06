@@ -1,8 +1,12 @@
+import { useWindowSize } from '@util';
+
 import { Login } from '@templates';
 
 export default function LoginPage() {
+  const { height } = useWindowSize();
+
   return (
-    <main>
+    <main style={{ height }}>
       <Login />
     </main>
   );
