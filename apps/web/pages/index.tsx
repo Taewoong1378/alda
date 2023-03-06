@@ -4,7 +4,7 @@ import { useWindowSize } from '@util';
 import { onAuthStateChanged } from 'firebase/auth';
 
 import { BottomNavbar } from '@components';
-import { Login } from '@templates';
+import { Entry } from '@templates';
 
 import { auth } from '@config';
 
@@ -30,13 +30,7 @@ export default function HomePage() {
   return (
     <>
       <main style={{ height }}>
-        {isLoggedIn ? (
-          <>
-            <div className='text-AX5-Headline'>Docs</div>
-          </>
-        ) : (
-          <Login />
-        )}
+        {isLoggedIn ? <div className='text-AX5-Headline'>Docs</div> : <Entry />}
       </main>
       {isLoggedIn && <BottomNavbar />}
     </>
