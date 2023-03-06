@@ -29,6 +29,7 @@ export const Login = () => {
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      router.push('/');
     } catch (error) {
       alert('Invalid email or password');
     }
