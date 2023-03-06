@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { useWindowSize } from '@util';
+import classNames from 'classnames';
 import { sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -16,7 +17,7 @@ const emailRegexp = new RegExp(
 export const Login = () => {
   const router = useRouter();
 
-  const { height } = useWindowSize();
+  const { width, height } = useWindowSize();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,11 +34,16 @@ export const Login = () => {
     }
   };
 
+  const disabled =
+    email === '' || password === '' || password.length < 6 || !emailRegexp.test(email);
+
   return (
     <>
       <div
-        className='px-49 bg-primary-100 pt-30 relative flex flex-col items-center rounded-bl-[50px] bg-opacity-50'
-        style={{ height: height - 150 }}>
+        className='px-49 bg-primary-100 py-30 flex flex-col items-center rounded-bl-[50px] bg-opacity-50'
+        style={{
+          minHeight: height - 300,
+        }}>
         <div className='text-grey-2 text-AX1-Caption2 mb-20'>Log in</div>
         <Image src='/Logo.png' width={60} height={60} layout='fixed' alt='alda-logo' />
         <div className='gap-45 mt-40 flex w-full flex-col'>
@@ -63,7 +69,7 @@ export const Login = () => {
         <div className='ml-12 mt-10 flex w-full items-start'>
           <button onClick={() => router.push('/signup')}>Sign up</button>
         </div>
-        <div className='absolute bottom-60 flex w-full justify-center'>
+        <div className='mt-40 flex w-full justify-center'>
           <Image src='/exclamation-mark.png' width={30} height={30} layout='fixed' />
           <button className='ml-6' onClick={() => setModalVisible(true)}>
             <div className='text-AX1-Subhead underline'>Forgot Password</div>
@@ -72,21 +78,22 @@ export const Login = () => {
       </div>
       <div className='flex w-full justify-end'>
         <button
-          disabled={
-            email === '' || password === '' || password.length < 6 || !emailRegexp.test(email)
-          }
-          className='disabled:bg-grey-1 disabled:border-grey-1 mt-27 text-primary-bg mr-27 text-AX1-Subhead enabled:border-grey-6 enabled:text-grey-6 pr-34 rounded-[50px] border-[2px] bg-white py-9 pl-40 disabled:border-opacity-30 disabled:bg-opacity-30'
+          disabled={disabled}
+          className='disabled:bg-grey-1 disabled:border-grey-1 mt-27 mr-27 text-AX1-Subhead enabled:border-grey-6 enabled:text-grey-6 pr-34 rounded-[50px] border-[2px] bg-white py-9 pl-40 disabled:border-opacity-0 disabled:bg-opacity-30'
           onClick={handleLogin}>
           <div className='flex flex-row items-center'>
-            <div>Next</div>
-            <Icon icon='RightDirection' size={40} color='grey-6' />
+            <div className={classNames(disabled ? 'text-primary-bg' : 'text-grey-6')}>Next</div>
+            <Icon icon='RightDirection' size={40} color={disabled ? 'primary-bg' : 'grey-6'} />
           </div>
         </button>
       </div>
       {modalVisible && (
         <Portal onClickBackground={() => setModalVisible(false)}>
           <div
-            className='absolute flex h-full w-full items-center justify-center'
+            style={{
+              width: width - 40,
+            }}
+            className='absolute-center flex justify-center'
             onClick={() => setModalVisible(false)}>
             <div
               className='shadow-1 px-42 flex w-fit flex-col items-center rounded-xl bg-white py-28'
