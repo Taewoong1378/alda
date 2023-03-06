@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 
 import { Icon } from '@components/Icon';
 
+import { BOTTOM_NAVBAR_HEIGHT } from '@constants';
+
 const ItemArray = [
   {
     icon: <Icon icon='BottomChattingOff' size={56} />,
@@ -43,7 +45,8 @@ export const BottomNavbar = () => {
   };
 
   return (
-    <div className='border-t-grey-6 border-t-1 fixed bottom-0 right-1/2 z-[200] flex h-[100px] w-full max-w-[598px] translate-x-1/2 justify-evenly bg-[rgba(0,0,0,0.09)]'>
+    <div
+      className={`border-t-grey-6 border-t-1 fixed bottom-0 right-1/2 z-[200] flex h-[${BOTTOM_NAVBAR_HEIGHT}px] w-full max-w-[598px] translate-x-1/2 justify-evenly bg-[rgba(0,0,0,0.09)]`}>
       {ItemArray.map((item, index) => {
         const isSelected = isSelectedFunc(item.path);
         return (
