@@ -3,17 +3,20 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
-import { Input } from '@components';
+import { Input, Loading } from '@components';
 
 import { auth, db } from '@config';
 
 export const SignUp = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
   const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
+    setIsLoading(true);
     event.preventDefault();
     try {
       await createUserWithEmailAndPassword(auth, email, password);
@@ -28,11 +31,14 @@ export const SignUp = () => {
           firstName,
           lastName,
         });
+        setIsLoading(false);
       }
     } catch (error) {
       console.error(error);
     }
   };
+
+  if (isLoading) return <Loading />;
 
   return (
     <form onSubmit={handleSignUp} className='px-30 pt-30'>

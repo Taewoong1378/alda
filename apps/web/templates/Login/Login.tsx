@@ -6,7 +6,7 @@ import { sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/aut
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { Icon, Input, Portal } from '@components';
+import { Icon, Input, Loading, Portal } from '@components';
 
 import { auth } from '@config';
 
@@ -25,11 +25,13 @@ export const Login = () => {
   const [passwordResetEmail, setPasswordResetEmail] = useState('');
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [isLoginLoading, setIsLoginLoading] = useState(false);
 
   const handleLogin = async () => {
+    setIsLoginLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push('/');
+      router.push('/').then(() => setIsLoginLoading(false));
     } catch (error) {
       alert('Invalid email or password');
     }
@@ -37,6 +39,8 @@ export const Login = () => {
 
   const disabled =
     email === '' || password === '' || password.length < 6 || !emailRegexp.test(email);
+
+  if (isLoginLoading) return <Loading />;
 
   return (
     <>
