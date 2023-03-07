@@ -8,6 +8,7 @@ export default function NewChatPage() {
   return (
     <>
       <main
+        className='bg-primary-100 pt-80'
         style={{
           height,
         }}>
