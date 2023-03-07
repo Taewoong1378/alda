@@ -62,7 +62,7 @@ export const SignUp = () => {
       <div
         className='center bg-primary-200 pt-30 px-50 relative flex-col rounded-tr-[50px] bg-opacity-50'
         style={{
-          height: height - 100,
+          minHeight: height - 100,
         }}>
         <div className='top-30 absolute'>
           <div className='text-grey-2 text-AX1-Caption2 mb-9 text-center'>Sign up</div>
