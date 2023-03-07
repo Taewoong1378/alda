@@ -15,6 +15,8 @@ module.exports = {
   'grey-5': '#2C2C2E',
   'grey-6': '#1C1C1E',
 
+  'primary-200-opacity-30': '#00690B80',
+
   black: '#000000',
   white: '#FFFFFF',
 };

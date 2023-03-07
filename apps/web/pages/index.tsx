@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useWindowSize } from '@util';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -14,7 +14,7 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     onAuthStateChanged(auth, user => {
       if (user) {
         setIsLoading(false);

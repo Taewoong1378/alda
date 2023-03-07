@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 
 import { Icon } from '@components';
@@ -17,12 +18,22 @@ export const NewChat = () => {
         <div className='text-AX1-Subhead text-center'>Start New Conversation</div>
       </div>
       <div className='absolute-center'>
-        <div className='border-primary-100 text-AX1-Headline px-30 cursor-pointer whitespace-nowrap rounded-[50px] border-[1px] py-16 text-center'>
+        <motion.div
+          onClick={() => router.push('/chat/new/emotional')}
+          whileTap={{
+            scale: 0.9,
+          }}
+          className='active:bg-primary-100 border-primary-100 text-AX1-Headline px-30 cursor-pointer whitespace-nowrap rounded-[50px] border-[1px] py-16 text-center'>
           Emotional Chat
-        </div>
-        <div className='border-primary-100 text-AX1-Headline px-30 mt-60 cursor-pointer whitespace-nowrap rounded-[50px] border-[1px] py-16 text-center'>
+        </motion.div>
+        <motion.div
+          onClick={() => router.push('/chat/new/fun')}
+          whileTap={{
+            scale: 0.9,
+          }}
+          className='active:bg-primary-100 border-primary-100 text-AX1-Headline px-30 mt-60 cursor-pointer whitespace-nowrap rounded-[50px] border-[1px] py-16 text-center'>
           Small Fun Chat
-        </div>
+        </motion.div>
       </div>
     </>
   );
