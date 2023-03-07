@@ -3,7 +3,7 @@ import { useLayoutEffect, useState } from 'react';
 import { useWindowSize } from '@util';
 import { onAuthStateChanged } from 'firebase/auth';
 
-import { BottomNavbar } from '@components';
+import { BottomNavbar, Loading } from '@components';
 import { Entry } from '@templates';
 
 import { auth } from '@config';
@@ -25,7 +25,7 @@ export default function HomePage() {
     });
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
 
   return (
     <>
