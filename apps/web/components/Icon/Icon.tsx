@@ -8,6 +8,7 @@ import BottomRecordingOff from '../../assets/icon/bottom-recording-off.svg';
 import BottomRecordingOn from '../../assets/icon/bottom-recording-on.svg';
 import BottomSettingsOff from '../../assets/icon/bottom-settings-off.svg';
 import BottomSettingsOn from '../../assets/icon/bottom-settings-on.svg';
+import Home from '../../assets/icon/home.svg';
 import LeftDirection from '../../assets/icon/left-direction.svg';
 import RightDirection from '../../assets/icon/right-direction.svg';
 
@@ -20,6 +21,7 @@ export const image = {
   BottomRecordingOff,
   BottomSettingsOn,
   BottomSettingsOff,
+  Home,
   LeftDirection,
   RightDirection,
 };
