@@ -60,20 +60,23 @@ export const SignUp = () => {
     <form onSubmit={handleSignUp} className='relative'>
       <div className='h-100 w-full bg-white' />
       <div
-        className='bg-primary-200 pt-30 rounded-tr-[50px] bg-opacity-50'
+        className='center bg-primary-200 pt-30 px-50 relative flex-col rounded-tr-[50px] bg-opacity-50'
         style={{
           height: height - 100,
         }}>
-        <div className='text-grey-2 text-AX1-Caption2 mb-9 text-center'>Sign up</div>
+        <div className='top-30 absolute'>
+          <div className='text-grey-2 text-AX1-Caption2 mb-9 text-center'>Sign up</div>
+          <div
+            className='text-grey-2 text-AX1-Subhead w-full text-center'
+            style={{
+              width: width > 600 ? 500 : width - 30,
+            }}>
+            {page === 0 ? `What's your name?` : `What's your email and password?`}
+          </div>
+        </div>
         {page === 0 ? (
           <>
-            <div className='text-grey-2 text-AX1-Subhead text-center'>What's your name?</div>
-
-            <div
-              className='absolute-center flex flex-col gap-40'
-              style={{
-                width: width > 600 ? 600 - 100 : width - 100,
-              }}>
+            <div className='flex w-full flex-col gap-40'>
               <Input
                 label='First Name'
                 type='text'
@@ -108,15 +111,7 @@ export const SignUp = () => {
           </>
         ) : (
           <>
-            <div className='text-grey-2 text-AX1-Subhead text-center'>
-              What's your email and password?
-            </div>
-
-            <div
-              className='absolute-center flex flex-col gap-40'
-              style={{
-                width: width > 600 ? 600 - 100 : width - 100,
-              }}>
+            <div className='flex w-full flex-col gap-40'>
               <Input
                 label='EMAIL'
                 type='email'
