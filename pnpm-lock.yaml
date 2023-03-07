@@ -73,6 +73,7 @@ importers:
       eslint-config-custom: workspace:*
       firebase: ^9.17.1
       framer-motion: ^10.0.2
+      lottie-react: ^2.4.0
       next: 12.3.4
       next-sitemap: ^3.1.29
       next-transpile-modules: ^10.0.0
@@ -87,6 +88,7 @@ importers:
       classnames: 2.3.2
       firebase: 9.17.1
       framer-motion: 10.0.2_biqbaboplfbrettd7655fr4n2y
+      lottie-react: 2.4.0_biqbaboplfbrettd7655fr4n2y
       next: 12.3.4_qtpcxnaaarbm4ws7ughq6oxfve
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -5281,6 +5283,21 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
+
+  /lottie-react/2.4.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-pDJGj+AQlnlyHvOHFK7vLdsDcvbuqvwPZdMlJ360wrzGFurXeKPr8SiRCjLf3LrNYKANQtSsh5dz9UYQHuqx4w==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      lottie-web: 5.10.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /lottie-web/5.10.2:
+    resolution: {integrity: sha512-d0PFIGiwuMsJYaF4uPo+qG8dEorlI+xFI2zrrFtE1bGO4WoLIz+NjremxEq1swpR7juR10aeOtmNh3d6G3ub0A==}
+    dev: false
 
   /lru-cache/6.0.0:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
