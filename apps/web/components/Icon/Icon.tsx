@@ -8,10 +8,10 @@ import BottomRecordingOff from '../../assets/icon/bottom-recording-off.svg';
 import BottomRecordingOn from '../../assets/icon/bottom-recording-on.svg';
 import BottomSettingsOff from '../../assets/icon/bottom-settings-off.svg';
 import BottomSettingsOn from '../../assets/icon/bottom-settings-on.svg';
+import LeftDirection from '../../assets/icon/left-direction.svg';
 import RightDirection from '../../assets/icon/right-direction.svg';
 
 export const image = {
-  RightDirection,
   BottomChattingOn,
   BottomChattingOff,
   BottomHomeOn,
@@ -20,6 +20,8 @@ export const image = {
   BottomRecordingOff,
   BottomSettingsOn,
   BottomSettingsOff,
+  LeftDirection,
+  RightDirection,
 };
 
 export type IconType = keyof typeof image;
