@@ -43,12 +43,17 @@ export const Login = () => {
   if (isLoginLoading) return <Loading />;
 
   return (
-    <>
+    <form onSubmit={handleLogin}>
       <div
-        className='px-49 bg-primary-100 py-30 flex flex-col items-center rounded-bl-[50px] bg-opacity-50'
+        className='px-49 bg-primary-100 py-30 relative flex flex-col items-center rounded-bl-[50px] bg-opacity-50'
         style={{
           minHeight: height - 300,
         }}>
+        <div
+          className='w-30 h-30 absolute top-16 left-16 cursor-pointer'
+          onClick={() => router.push('/')}>
+          <Icon icon='LeftDirection' size={26} color='black' />
+        </div>
         <div className='text-grey-2 text-AX1-Caption2 mb-20'>Log in</div>
         <Image src='/Logo.png' width={60} height={60} layout='fixed' alt='alda-logo' />
         <div className='gap-35 mt-40 flex w-full flex-col'>
@@ -71,9 +76,9 @@ export const Login = () => {
             }
           />
         </div>
-        <div className='ml-12 mt-10 flex w-full items-start'>
+        {/* <div className='ml-12 mt-10 flex w-full items-start'>
           <button onClick={() => router.push('/signup')}>Sign up</button>
-        </div>
+        </div> */}
         <div className='mt-40 flex w-full justify-center'>
           <Image src='/exclamation-mark.png' width={30} height={30} layout='fixed' />
           <button className='ml-6' onClick={() => setModalVisible(true)}>
@@ -83,9 +88,9 @@ export const Login = () => {
       </div>
       <div className='flex w-full justify-end'>
         <button
+          type='submit'
           disabled={disabled}
-          className='disabled:bg-grey-1 disabled:border-grey-1 mt-27 mr-27 text-AX1-Subhead enabled:border-grey-6 enabled:text-grey-6 pr-34 rounded-[50px] border-[2px] bg-white py-9 pl-40 disabled:border-opacity-0 disabled:bg-opacity-30'
-          onClick={handleLogin}>
+          className='disabled:bg-grey-1 disabled:border-grey-1 mt-27 mr-27 text-AX1-Subhead enabled:border-grey-6 enabled:text-grey-6 pr-34 rounded-[50px] border-[2px] bg-white py-9 pl-40 disabled:border-opacity-0 disabled:bg-opacity-30'>
           <div className='flex flex-row items-center'>
             <div className={classNames(disabled ? 'text-primary-bg' : 'text-grey-6')}>Next</div>
             <Icon icon='RightDirection' size={40} color={disabled ? 'primary-bg' : 'grey-6'} />
@@ -122,6 +127,6 @@ export const Login = () => {
           </div>
         </Portal>
       )}
-    </>
+    </form>
   );
 };
