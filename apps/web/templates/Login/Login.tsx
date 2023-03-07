@@ -25,8 +25,9 @@ export const Login = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isLoginLoading, setIsLoginLoading] = useState(false);
 
-  const handleLogin = async () => {
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     setIsLoginLoading(true);
+    event.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
       router.push('/').then(() => setIsLoginLoading(false));
