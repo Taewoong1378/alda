@@ -10,9 +10,7 @@ import { Icon, Input, Loading, Portal } from '@components';
 
 import { auth } from '@config';
 
-const emailRegexp = new RegExp(
-  "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])",
-);
+import { emailRegexp } from '@constants';
 
 export const Login = () => {
   const router = useRouter();
@@ -34,6 +32,7 @@ export const Login = () => {
       router.push('/').then(() => setIsLoginLoading(false));
     } catch (error) {
       alert('Invalid email or password');
+      setIsLoginLoading(false);
     }
   };
 
