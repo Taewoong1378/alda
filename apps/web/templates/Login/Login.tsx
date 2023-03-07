@@ -47,7 +47,7 @@ export const Login = () => {
         }}>
         <div className='text-grey-2 text-AX1-Caption2 mb-20'>Log in</div>
         <Image src='/Logo.png' width={60} height={60} layout='fixed' alt='alda-logo' />
-        <div className='gap-45 mt-40 flex w-full flex-col'>
+        <div className='gap-35 mt-40 flex w-full flex-col'>
           <Input
             label='Email'
             type='email'
@@ -99,14 +99,14 @@ export const Login = () => {
             <div
               className='shadow-1 px-42 flex w-fit flex-col items-center rounded-xl bg-white py-28'
               onClick={e => e.stopPropagation()}>
-              <div className='text-AX1-Caption1 mt-2 mb-5'>Send a password reset email.</div>
-              <div className='text-AX1-Caption2 mb-5'>Please enter your email</div>
+              <div className='mt-2 mb-5 text-[17px]'>Send a password reset email.</div>
+              <div className='mb-8 text-[15px]'>Please enter your email</div>
               <Input
                 value={passwordResetEmail}
                 onChange={e => setPasswordResetEmail(e.target.value)}
               />
               <button
-                className='text-T6 mt-10 text-yellow-600'
+                className='bg-primary-100 text-T6 mt-16 rounded-lg px-16 py-5 text-yellow-600'
                 onClick={() => {
                   sendPasswordResetEmail(auth, passwordResetEmail);
                   setModalVisible(false);

@@ -45,7 +45,7 @@ export const Input = ({
           {...inputProps}
         />
       </div>
-      {message && <div className=' ml-8 mt-8'>{message}</div>}
+      {message && <div className='ml-8 mt-8 text-[13px]'>{message}</div>}
     </div>
   );
 };
