@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import { useWindowSize } from '@util';
 import { sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -10,6 +9,7 @@ import { Button, Icon, Input, Loading, Portal } from '@components';
 import { auth } from '@config';
 
 import { emailRegexp } from '@constants';
+import { useWindowSize } from '@hooks';
 
 export const Login = () => {
   const router = useRouter();
@@ -75,9 +75,6 @@ export const Login = () => {
             }
           />
         </div>
-        {/* <div className='ml-12 mt-10 flex w-full items-start'>
-          <button onClick={() => router.push('/signup')}>Sign up</button>
-        </div> */}
         <div
           className='mt-40 flex w-full cursor-pointer justify-center'
           onClick={() => setModalVisible(true)}>

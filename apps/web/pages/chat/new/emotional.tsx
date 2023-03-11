@@ -1,6 +1,6 @@
-import { useWindowSize } from '@util';
-
 import { EmotionalChat } from '@templates';
+
+import { useWindowSize } from '@hooks';
 
 export default function EmotionalChatPage() {
   const { height } = useWindowSize();

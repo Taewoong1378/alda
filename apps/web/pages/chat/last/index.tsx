@@ -1,6 +1,6 @@
-import { useWindowSize } from '@util';
-
 import { LastChat } from '@templates';
+
+import { useWindowSize } from '@hooks';
 
 export default function LastChatPage() {
   const { height } = useWindowSize();

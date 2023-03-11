@@ -1,6 +1,6 @@
-import { useWindowSize } from '@util';
-
 import { NewChat } from '@templates';
+
+import { useWindowSize } from '@hooks';
 
 export default function NewChatPage() {
   const { height } = useWindowSize();

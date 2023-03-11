@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { useWindowSize } from '@util';
 import classNames from 'classnames';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
@@ -11,6 +10,7 @@ import { Icon, Input, Loading } from '@components';
 import { auth, db } from '@config';
 
 import { emailRegexp } from '@constants';
+import { useWindowSize } from '@hooks';
 
 export const SignUp = () => {
   const router = useRouter();

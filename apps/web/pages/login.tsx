@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 
-import { useWindowSize } from '@util';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useRouter } from 'next/router';
 
 import { Login } from '@templates';
 
 import { auth } from '@config';
+
+import { useWindowSize } from '@hooks';
 
 export default function LoginPage() {
   const router = useRouter();

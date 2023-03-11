@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { useWindowSize } from '@util';
 import { onAuthStateChanged } from 'firebase/auth';
 
 import { BottomNavbar, Loading } from '@components';
 import { Entry } from '@templates';
 
 import { auth } from '@config';
+
+import { useWindowSize } from '@hooks';
 
 export default function HomePage() {
   const { height } = useWindowSize();
