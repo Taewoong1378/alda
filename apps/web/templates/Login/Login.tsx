@@ -1,12 +1,11 @@
 import { useState } from 'react';
 
 import { useWindowSize } from '@util';
-import classNames from 'classnames';
 import { sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { Icon, Input, Loading, Portal } from '@components';
+import { Button, Icon, Input, Loading, Portal } from '@components';
 
 import { auth } from '@config';
 
@@ -79,23 +78,17 @@ export const Login = () => {
         {/* <div className='ml-12 mt-10 flex w-full items-start'>
           <button onClick={() => router.push('/signup')}>Sign up</button>
         </div> */}
-        <div className='mt-40 flex w-full justify-center'>
+        <div
+          className='mt-40 flex w-full cursor-pointer justify-center'
+          onClick={() => setModalVisible(true)}>
           <Image src='/exclamation-mark.png' width={30} height={30} layout='fixed' />
-          <button className='ml-6' onClick={() => setModalVisible(true)}>
+          <div className='ml-6'>
             <div className='text-AX1-Subhead underline'>Forgot Password</div>
-          </button>
+          </div>
         </div>
       </div>
       <div className='flex w-full justify-end'>
-        <button
-          type='submit'
-          disabled={disabled}
-          className='disabled:bg-grey-1 disabled:border-grey-1 mt-27 mr-27 text-AX1-Subhead enabled:border-grey-6 enabled:text-grey-6 pr-34 rounded-[50px] border-[2px] bg-white py-9 pl-40 disabled:border-opacity-0 disabled:bg-opacity-30'>
-          <div className='flex flex-row items-center'>
-            <div className={classNames(disabled ? 'text-primary-bg' : 'text-grey-6')}>Next</div>
-            <Icon icon='RightDirection' size={40} color={disabled ? 'primary-bg' : 'grey-6'} />
-          </div>
-        </button>
+        <Button text='Next' type='submit' disabled={disabled} />
       </div>
       {modalVisible && (
         <Portal onClickBackground={() => setModalVisible(false)}>
