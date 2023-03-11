@@ -75,7 +75,7 @@ const QuestionBubble = ({ question }: QuestionBubbleProps) => {
 export const EmotionalChat = () => {
   const { myLocation } = useGetLocation();
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [currentWeather, setCurrentWeather] = useState<string>();
 
   const [selectedMoodChip, setSelectedMoodChip] = useState<keyof typeof detailMood>();
@@ -100,7 +100,6 @@ export const EmotionalChat = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
     if (myLocation) {
       getWeather().then(data => {
         setCurrentWeather(data.weather[0].main);
