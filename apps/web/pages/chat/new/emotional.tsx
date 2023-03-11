@@ -8,6 +8,7 @@ export default function EmotionalChatPage() {
   return (
     <>
       <main
+        className='bg-primary-bg'
         style={{
           height,
         }}>

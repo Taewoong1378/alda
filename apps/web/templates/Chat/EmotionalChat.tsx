@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import axios from 'axios';
+import { AnimatePresence, motion } from 'framer-motion';
 
 import { Button, Chip, Header, Loading } from '@components';
 
@@ -8,6 +9,9 @@ import { useGetLocation } from '@hooks';
 
 interface QuestionBubbleProps {
   question: string;
+}
+interface AnswerBubbleProps {
+  answer: React.ReactNode | string;
 }
 
 const detailMood = {
@@ -66,8 +70,16 @@ const moodArr = [
 
 const QuestionBubble = ({ question }: QuestionBubbleProps) => {
   return (
-    <div className='bg-primary-100 text-AX1-Subhead w-full rounded-[25px] rounded-tl-none border-[2px] pt-28 pb-56 pl-28'>
+    <div className='bg-primary-100 text-AX1-Subhead w-full rounded-[25px] rounded-tl-none border-[2px] px-28 pt-28 pb-56'>
       {question}
+    </div>
+  );
+};
+
+const AnswerBubble = ({ answer }: AnswerBubbleProps) => {
+  return (
+    <div className='bg-primary-bg text-AX1-Subhead w-full rounded-[25px] rounded-br-none border-[2px] px-28 py-28'>
+      {answer}
     </div>
   );
 };
@@ -77,6 +89,8 @@ export const EmotionalChat = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [currentWeather, setCurrentWeather] = useState<string>();
+
+  const [isFirstQuestionAnswered, setIsFirstQuestionAnswered] = useState<boolean>(false);
 
   const [selectedMoodChip, setSelectedMoodChip] = useState<keyof typeof detailMood>();
   const [selectedDetailMoodChip, setSelectedDetailMoodChip] = useState<string[]>([]);
@@ -113,37 +127,94 @@ export const EmotionalChat = () => {
   return (
     <>
       <Header title='Emotional Chat' />
-      <div className='px-27 center flex h-[calc(100%-100px)] flex-col'>
-        <QuestionBubble question={`It's ${currentWeather} today. How was your feeling?`} />
-        {/* {detailMood[selectedMoodChip].detail.map(v => {
-              return (
-                <Chip
-                  key={v}
-                  text={v}
-                  onClick={() => handleClick(v)}
-                  isSelected={selectedDetailMoodChip.includes(v)}
-                />
-              );
-            })} */}
-        <div className='flex flex-row flex-wrap items-center gap-10'>
-          {moodArr.map(v => {
-            return (
-              <Chip
-                key={v.id}
-                text={v.text}
-                onClick={() => {
-                  setSelectedMoodChip(v.text);
-                  setSelectedDetailMoodChip([]);
-                }}
-                isSelected={v.text === selectedMoodChip}
+      <AnimatePresence>
+        {!isFirstQuestionAnswered && (
+          <div className='px-27 center flex h-[calc(100%-100px)] flex-col'>
+            <motion.div
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1 }}
+              exit={{ opacity: 0, x: 10 }}>
+              <QuestionBubble question={`It's ${currentWeather} today. How was your feeling?`} />
+              {/* {detailMood[selectedMoodChip].detail.map(v => {
+                    return (
+                      <Chip
+                        key={v}
+                        text={v}
+                        onClick={() => handleClick(v)}
+                        isSelected={selectedDetailMoodChip.includes(v)}
+                      />
+                    );
+                  })} */}
+              <div className='flex flex-row flex-wrap items-center gap-12'>
+                {moodArr.map(v => {
+                  return (
+                    <Chip
+                      key={v.id}
+                      text={v.text}
+                      onClick={() => {
+                        setSelectedMoodChip(v.text);
+                        setSelectedDetailMoodChip([]);
+                      }}
+                      isSelected={v.text === selectedMoodChip}
+                    />
+                  );
+                })}
+              </div>
+            </motion.div>
+            <div className='absolute bottom-60'>
+              <Button
+                text='Next'
+                disabled={!selectedMoodChip}
+                onClick={() => setIsFirstQuestionAnswered(true)}
               />
-            );
-          })}
-        </div>
-        <div className='absolute bottom-60'>
-          <Button text='Next' disabled={!selectedMoodChip} />
-        </div>
-      </div>
+            </div>
+          </div>
+        )}
+        {isFirstQuestionAnswered && (
+          <motion.div className='px-27 pt-24'>
+            <motion.div
+              className='pr-27'
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1 }}
+              exit={{ opacity: 0, x: -10 }}>
+              <QuestionBubble question={`It's ${currentWeather} today. How was your feeling?`} />
+            </motion.div>
+            <motion.div
+              className='pl-27 mt-31'
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, delay: 0.8 }}
+              exit={{ opacity: 0, x: 10 }}>
+              <AnswerBubble
+                answer={
+                  <div className='text-AX1-Subhead'>
+                    I was&nbsp;&nbsp;
+                    <span className='text-AX1-Subhead text-primary-100'>{selectedMoodChip}</span>
+                    &nbsp;&nbsp; today.
+                  </div>
+                }
+              />
+            </motion.div>
+            <motion.div
+              className='mt-31 pr-27'
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, delay: 1.5 }}
+              exit={{ opacity: 0, x: -10 }}>
+              <QuestionBubble question={`What was your feeling of Happiness ?`} />
+            </motion.div>
+            <div className='absolute-justify-center bottom-60'>
+              <Button
+                text='Next'
+                disabled={!selectedMoodChip}
+                onClick={() => setIsFirstQuestionAnswered(true)}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };
