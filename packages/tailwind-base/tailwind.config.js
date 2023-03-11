@@ -39,7 +39,7 @@ module.exports = {
     },
     colors,
     fontFamily: {
-      SFPro: ['SF Pro'],
+      SFPro: ['SF-Pro'],
     },
     fontWeight: {
       regular: '400',
