@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 
 import { BottomNavbar, Loading } from '@components';
-import { Entry } from '@templates';
+import { Entry, Home } from '@templates';
 
 import { auth } from '@config';
 
@@ -30,9 +30,7 @@ export default function HomePage() {
 
   return (
     <>
-      <main style={{ height }}>
-        {isLoggedIn ? <div className='text-AX5-Headline'>Docs</div> : <Entry />}
-      </main>
+      <main style={{ height }}>{isLoggedIn ? <Home /> : <Entry />}</main>
       {isLoggedIn && <BottomNavbar />}
     </>
   );
