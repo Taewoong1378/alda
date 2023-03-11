@@ -1,1 +1,1 @@
-export * from './use-window-size';
+export * from './is-app-approaching';
