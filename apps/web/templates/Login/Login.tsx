@@ -84,7 +84,7 @@ export const Login = () => {
           </div>
         </div>
       </div>
-      <div className='flex w-full justify-end'>
+      <div className='pt-27 pr-27 flex w-full justify-end'>
         <Button text='Next' type='submit' disabled={disabled} />
       </div>
       {modalVisible && (
