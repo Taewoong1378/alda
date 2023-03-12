@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
-import axios from 'axios';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -92,13 +91,16 @@ const AnswerBubble = ({ answer }: AnswerBubbleProps) => {
 };
 
 export const EmotionalChat = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   const { height } = useWindowSize();
 
   const { user } = useGetProfile();
   const { myLocation } = useGetLocation();
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [currentWeather, setCurrentWeather] = useState<string>();
+  // const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [currentWeather, setCurrentWeather] = useState<string>('Sunny');
 
   const [isFirstQuestionAnswered, setIsFirstQuestionAnswered] = useState<boolean>(false);
 
@@ -116,21 +118,30 @@ export const EmotionalChat = () => {
     [selectedDetailMoodChip],
   );
 
-  const getWeather = async () => {
-    const { data } = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${myLocation?.latitude}&lon=${myLocation?.longitude}&appid=${process.env.NEXT_PUBLIC_WEATHER_API}`,
-    );
-    return data;
-  };
+  // const getWeather = async () => {
+  //   const { data } = await axios.get(
+  //     `https://api.openweathermap.org/data/2.5/weather?lat=${myLocation?.latitude}&lon=${myLocation?.longitude}&appid=${process.env.NEXT_PUBLIC_WEATHER_API}`,
+  //   );
+  //   return data;
+  // };
 
-  useEffect(() => {
-    if (myLocation) {
-      getWeather().then(data => {
-        setCurrentWeather(data.weather[0].main);
-        setIsLoading(false);
-      });
-    }
-  }, [myLocation]);
+  // useEffect(() => {
+  //   if (myLocation) {
+  //     getWeather().then(data => {
+  //       setCurrentWeather(data.weather[0].main);
+  //       setIsLoading(false);
+  //     });
+  //   }
+  // }, [myLocation]);
+
+  // useEffect(() => {
+  //   if (!scrollRef.current) return;
+  //   if (isFirstQuestionAnswered) {
+  //     scrollRef.current?.scrollIntoView({
+  //       behavior: 'smooth',
+  //     });
+  //   }
+  // }, [isFirstQuestionAnswered, scrollRef]);
 
   if (isLoading) return <Loading />;
 
@@ -176,7 +187,7 @@ export const EmotionalChat = () => {
         )}
         {isFirstQuestionAnswered && (
           <motion.div
-            className={`px-27 mb-54 bg-primary-bg h-full`}
+            className='px-27 mb-54 bg-primary-bg'
             style={{
               paddingTop: HEADER_HEIGHT + 24,
               minHeight: height + HEADER_HEIGHT + 24,
