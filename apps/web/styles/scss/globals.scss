@@ -131,8 +131,14 @@ li {
 
 @font-face {
 	font-family: "SF-Pro";
-	src: url("../../assets/fonts/SF-Pro.ttf") format("ttf");
+	src: url("../../assets/fonts/sf-pro-text-regular.woff") format("woff");
 	font-weight: 400;
+}
+
+@font-face {
+	font-family: "SF-Pro";
+	src: url("../../assets/fonts/sf-pro-text-bold.woff") format("woff");
+	font-weight: 700;
 }
 
 [type="radio"] {
