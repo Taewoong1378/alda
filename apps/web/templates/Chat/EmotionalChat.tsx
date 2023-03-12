@@ -149,7 +149,7 @@ export const EmotionalChat = () => {
                 isMain={true}
                 question={`It's ${currentWeather} today. How was your feeling?`}
               />
-              <div className='flex flex-row flex-wrap items-center gap-12'>
+              <div className='flex flex-row flex-wrap items-center justify-center gap-12'>
                 {moodArr.map(v => {
                   return (
                     <Chip
