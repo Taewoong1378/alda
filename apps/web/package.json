@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@js-joda/core": "^5.5.2",
     "@svgr/webpack": "^6.5.1",
     "axios": "^1.3.4",
     "classnames": "^2.3.2",
