@@ -1,6 +1,6 @@
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { weatherState } from '@recoilState';
+import { chatState, weatherState } from '@recoilState';
 import { motion } from 'framer-motion';
 
 import { Button, Chip } from '@components';
@@ -22,6 +22,7 @@ export const First = ({
   setSelectedDetailMoodChip,
   setIsFirstQuestionAnswered,
 }: FirstProps) => {
+  const setChat = useSetRecoilState(chatState);
   const [weather] = useRecoilState(weatherState);
 
   return (
