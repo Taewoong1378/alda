@@ -5,23 +5,23 @@ export const detailMood = {
   },
   Ordinary: {
     mood: 'Ordinary',
-    detail: [],
+    detail: ['Leisurely', 'Warm', 'Satisfying', 'Comfortable', 'Reassuring'],
   },
   Scared: {
     mood: 'Scared',
-    detail: [],
+    detail: ['Heartbroken', 'Sorrowful', 'Empty', 'Lonely', 'Desolate'],
   },
   Sad: {
     mood: 'Sad',
-    detail: [],
+    detail: ['Exhausted', 'Regretful', 'Disheartened', 'Depressed', 'Ashamed'],
   },
   Depressed: {
     mood: 'Depressed',
-    detail: [],
+    detail: ['Fearful', 'Anxious', 'Painful', 'Unimaginable', 'Unstable'],
   },
   Angry: {
     mood: 'Angry',
-    detail: [],
+    detail: ['Indignant', 'Betrayed', 'Hateful', 'Irritated', 'Jealous'],
   },
 };
 
