@@ -16,15 +16,6 @@ export const EmotionalChat = () => {
   const [selectedMoodChip, setSelectedMoodChip] = useState<keyof typeof detailMood>();
   const [selectedDetailMoodChip, setSelectedDetailMoodChip] = useState<string[]>([]);
 
-  // useEffect(() => {
-  //   if (!scrollRef.current) return;
-  //   if (isFirstQuestionAnswered) {
-  //     scrollRef.current?.scrollIntoView({
-  //       behavior: 'smooth',
-  //     });
-  //   }
-  // }, [isFirstQuestionAnswered, scrollRef]);
-
   return (
     <>
       <Header title='Emotional Chat' />
@@ -38,6 +29,7 @@ export const EmotionalChat = () => {
           />
         ) : (
           <Second
+            isFirstQuestionAnswered={isFirstQuestionAnswered}
             isSecondQuestionAnswered={isSecondQuestionAnswered}
             setIsSecondQuestionAnswered={setIsSecondQuestionAnswered}
             selectedDetailMoodChip={selectedDetailMoodChip}

@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { weatherState } from '@recoilState';
@@ -12,6 +12,7 @@ import { useGetProfile, useWindowSize } from '@hooks';
 import { AnswerBubble, QuestionBubble } from '../components';
 
 interface SecondProps {
+  isFirstQuestionAnswered: boolean;
   selectedDetailMoodChip: string[];
   setSelectedDetailMoodChip: (v: string[]) => void;
   selectedMoodChip?: Mood;
@@ -20,12 +21,14 @@ interface SecondProps {
 }
 
 export const Second = ({
+  isFirstQuestionAnswered,
   selectedDetailMoodChip,
   setSelectedDetailMoodChip,
   selectedMoodChip,
   isSecondQuestionAnswered,
   setIsSecondQuestionAnswered,
 }: SecondProps) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [weather] = useRecoilState(weatherState);
 
   const { user } = useGetProfile();
@@ -41,6 +44,22 @@ export const Second = ({
     },
     [selectedDetailMoodChip],
   );
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (isFirstQuestionAnswered && scrollRef.current) {
+        return scrollRef.current.scrollIntoView({
+          behavior: 'smooth',
+        });
+      }
+    }, 2000);
+
+    if (isSecondQuestionAnswered && scrollRef.current) {
+      return scrollRef.current.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+  }, [isFirstQuestionAnswered, isSecondQuestionAnswered, scrollRef]);
 
   return (
     <motion.div
@@ -133,6 +152,7 @@ export const Second = ({
           </motion.div>
         )}
       </motion.div>
+      <div ref={scrollRef} />
       <div className='fixed left-1/2 bottom-60 -translate-x-1/2'>
         <Button
           text='Next'
