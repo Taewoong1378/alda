@@ -2,5 +2,6 @@
 /// <reference path="./user.d.ts" />
 /// <reference path="./location.d.ts" />
 /// <reference path="./mood.d.ts" />
+/// <reference path="./chat.d.ts" />
 
 export {};
