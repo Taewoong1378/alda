@@ -15,6 +15,8 @@ export const FunnyChat = () => {
 
   const [chat, setChat] = useState('');
 
+  if (!user) return null;
+
   return (
     <>
       <Header title='Small Fun Chat' />
@@ -35,7 +37,7 @@ export const FunnyChat = () => {
               isMain={true}
               question={
                 <>
-                  <div>{user?.firstName},</div>&nbsp;&nbsp;
+                  <div>{user.firstName},</div>&nbsp;&nbsp;
                   <div>what should we talk about today?</div>
                 </>
               }
