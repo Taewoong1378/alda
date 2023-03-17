@@ -8,7 +8,7 @@ export const NewChat = () => {
 
   return (
     <>
-      <div className='left-30 top-25 absolute cursor-pointer' onClick={() => router.back()}>
+      <div className='left-30 top-25 absolute cursor-pointer' onClick={() => router.push('/')}>
         <Icon icon='LeftDirection' size={25} color='primary-bg' />
       </div>
       <div className='right-30 absolute top-20 cursor-pointer' onClick={() => router.push('/')}>
