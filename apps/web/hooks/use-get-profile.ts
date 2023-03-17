@@ -23,8 +23,8 @@ export const useGetProfile = () => {
         const firestoreUser: User = await getUserProfile(uid);
 
         setUser({
-          uid,
           ...firestoreUser,
+          uid,
         });
         setIsLoading(false);
       } else {
