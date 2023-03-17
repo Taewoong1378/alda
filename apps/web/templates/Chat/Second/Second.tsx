@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { weatherState } from '@recoilState';
+import { emotionState, weatherState } from '@recoilState';
 import { motion } from 'framer-motion';
 
 import { Button, Chip } from '@components';
@@ -13,8 +13,8 @@ import { AnswerBubble, QuestionBubble } from '../components';
 
 interface SecondProps {
   isFirstQuestionAnswered: boolean;
-  selectedDetailMoodChip: string[];
-  setSelectedDetailMoodChip: (v: string[]) => void;
+  selectedDetailMoodChip: Emotion['small'];
+  setSelectedDetailMoodChip: (v: Emotion['small']) => void;
   selectedMoodChip?: Mood;
   isSecondQuestionAnswered: boolean;
   setIsSecondQuestionAnswered: (v: boolean) => void;
@@ -30,12 +30,13 @@ export const Second = ({
 }: SecondProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [weather] = useRecoilState(weatherState);
+  const setEmotion = useSetRecoilState(emotionState);
 
   const { user } = useGetProfile();
   const { height } = useWindowSize();
 
   const handleClick = useCallback(
-    (v: string) => {
+    (v: Emotion['small'][number]) => {
       if (selectedDetailMoodChip.includes(v)) {
         setSelectedDetailMoodChip(selectedDetailMoodChip.filter(vv => vv !== v));
       } else {
@@ -157,7 +158,13 @@ export const Second = ({
         <Button
           text='Next'
           disabled={!selectedDetailMoodChip.length}
-          onClick={() => setIsSecondQuestionAnswered(true)}
+          onClick={() => {
+            setIsSecondQuestionAnswered(true);
+            setEmotion(prev => ({
+              ...prev,
+              small: selectedDetailMoodChip,
+            }));
+          }}
         />
       </div>
     </motion.div>

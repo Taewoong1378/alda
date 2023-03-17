@@ -23,7 +23,7 @@ export const detailMood = {
     mood: 'Angry',
     detail: ['Indignant', 'Betrayed', 'Hateful', 'Irritated', 'Jealous'],
   },
-};
+} as const;
 
 export const moodArr = [
   {

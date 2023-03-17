@@ -14,7 +14,7 @@ export const EmotionalChat = () => {
   const [isSecondQuestionAnswered, setIsSecondQuestionAnswered] = useState<boolean>(false);
 
   const [selectedMoodChip, setSelectedMoodChip] = useState<keyof typeof detailMood>();
-  const [selectedDetailMoodChip, setSelectedDetailMoodChip] = useState<string[]>([]);
+  const [selectedDetailMoodChip, setSelectedDetailMoodChip] = useState<Emotion['small']>([]);
 
   return (
     <>
