@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import { useGetLocation } from '@hooks';
 
@@ -8,6 +9,8 @@ import { DateButton } from './components';
 import { getFormattedDate, getWeek } from './util';
 
 export const Home = () => {
+  const router = useRouter();
+
   useGetLocation();
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -38,7 +41,9 @@ export const Home = () => {
         </div>
       </div>
       <div className='mt-50 px-28'>
-        <div className='border-secondary-101 relative cursor-pointer rounded-[25px] border-[2px]'>
+        <div
+          className='border-secondary-101 relative cursor-pointer rounded-[25px] border-[2px]'
+          onClick={() => router.push('/feeling')}>
           <Image
             src='/happy.jpg'
             width={300}
