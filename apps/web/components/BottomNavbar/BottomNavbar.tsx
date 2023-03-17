@@ -12,12 +12,12 @@ const ItemArray = [
     path: '/chat/new',
     text: 'Chatting',
   },
-  {
-    icon: <Icon icon='BottomRecordingOff' size={56} />,
-    activeIcon: <Icon icon='BottomRecordingOn' size={56} />,
-    path: '/record',
-    text: 'Recordings',
-  },
+  // {
+  //   icon: <Icon icon='BottomRecordingOff' size={56} />,
+  //   activeIcon: <Icon icon='BottomRecordingOn' size={56} />,
+  //   path: '/record',
+  //   text: 'Recordings',
+  // },
   {
     icon: <Icon icon='BottomHomeOff' size={56} />,
     activeIcon: <Icon icon='BottomHomeOn' size={56} />,
