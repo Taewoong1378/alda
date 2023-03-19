@@ -209,6 +209,7 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
             if (i % 2 === 0) {
               return (
                 <motion.div
+                  key={i}
                   className='mt-31'
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -224,6 +225,7 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
 
             return (
               <motion.div
+                key={i}
                 className='mt-31'
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
