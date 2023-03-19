@@ -17,7 +17,7 @@ export default function ChatPage() {
         style={{
           height,
         }}>
-        <ChatEntry isLast={JSON.parse(isLast)} />
+        <ChatEntry isLast={isLast ? JSON.parse(isLast) : false} />
       </main>
     </>
   );

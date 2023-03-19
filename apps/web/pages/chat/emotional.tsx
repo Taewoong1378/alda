@@ -47,7 +47,7 @@ export default function EmotionalChatPage() {
         style={{
           height,
         }}>
-        <EmotionalChat hasChatInfo={JSON.parse(hasChatInfo)} />
+        <EmotionalChat hasChatInfo={hasChatInfo ? JSON.parse(hasChatInfo) : false} />
       </main>
     </>
   );
