@@ -3,6 +3,7 @@ import { useSetRecoilState } from 'recoil';
 
 import { weatherState } from '@recoilState';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 import { Loading } from '@components';
 import { EmotionalChat } from '@templates';
@@ -10,12 +11,16 @@ import { EmotionalChat } from '@templates';
 import { useGetLocation, useWindowSize } from '@hooks';
 
 export default function EmotionalChatPage() {
+  const router = useRouter();
+
   const setWeather = useSetRecoilState(weatherState);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const { myLocation } = useGetLocation();
   const { height } = useWindowSize();
+
+  const hasChatInfo = router.query.hasChatInfo as string;
 
   const getWeather = async () => {
     const { data } = await axios.get(
@@ -42,7 +47,7 @@ export default function EmotionalChatPage() {
         style={{
           height,
         }}>
-        <EmotionalChat />
+        <EmotionalChat hasChatInfo={JSON.parse(hasChatInfo)} />
       </main>
     </>
   );

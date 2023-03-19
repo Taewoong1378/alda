@@ -1,4 +1,4 @@
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import { emotionState, weatherState } from '@recoilState';
 import { motion } from 'framer-motion';
@@ -11,21 +11,13 @@ import { useGetProfile } from '@hooks';
 import { QuestionBubble } from '../components/QuestionBubble';
 
 interface FirstProps {
-  selectedMoodChip?: Mood;
-  setSelectedMoodChip: (v: Mood) => void;
-  setSelectedDetailMoodChip: (v: Emotion['small']) => void;
   setIsFirstQuestionAnswered: (v: boolean) => void;
 }
 
-export const First = ({
-  selectedMoodChip,
-  setSelectedMoodChip,
-  setSelectedDetailMoodChip,
-  setIsFirstQuestionAnswered,
-}: FirstProps) => {
+export const First = ({ setIsFirstQuestionAnswered }: FirstProps) => {
   const { user } = useGetProfile();
 
-  const setEmotion = useSetRecoilState(emotionState);
+  const [emotion, setEmotion] = useRecoilState(emotionState);
   const [weather] = useRecoilState(weatherState);
 
   if (!user) return null;
@@ -45,10 +37,9 @@ export const First = ({
                 key={v.id}
                 text={v.text}
                 onClick={() => {
-                  setSelectedMoodChip(v.text);
-                  setSelectedDetailMoodChip([]);
+                  setEmotion({ user: user?.uid, big: v.text, small: [] });
                 }}
-                isSelected={v.text === selectedMoodChip}
+                isSelected={v.text === emotion.big}
               />
             );
           })}
@@ -57,11 +48,10 @@ export const First = ({
       <div className='absolute bottom-60'>
         <Button
           text='Next'
-          disabled={!selectedMoodChip}
+          disabled={!emotion.big}
           onClick={() => {
-            if (!selectedMoodChip) return;
+            if (!emotion.big) return;
             setIsFirstQuestionAnswered(true);
-            setEmotion({ user: user?.uid, big: selectedMoodChip, small: [] });
           }}
         />
       </div>

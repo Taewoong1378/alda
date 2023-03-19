@@ -1,21 +1,24 @@
-import { BottomNavbar } from '@components';
-import { Chat } from '@templates';
+import { useRouter } from 'next/router';
 
-import { BOTTOM_NAVBAR_HEIGHT } from '@constants';
+import { ChatEntry } from '@templates';
+
 import { useWindowSize } from '@hooks';
 
 export default function ChatPage() {
   const { height } = useWindowSize();
+  const router = useRouter();
+
+  const isLast = router.query.isLast as string;
 
   return (
     <>
       <main
+        className='bg-primary-100 relative pt-80'
         style={{
-          height: height - BOTTOM_NAVBAR_HEIGHT,
+          height,
         }}>
-        <Chat />
+        <ChatEntry isLast={JSON.parse(isLast)} />
       </main>
-      <BottomNavbar />
     </>
   );
 }

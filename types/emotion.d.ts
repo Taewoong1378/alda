@@ -9,7 +9,7 @@ type AngryDetail = 'Indignant' | 'Betrayed' | 'Hateful' | 'Irritated' | 'Jealous
 
 interface Emotion {
   user: string;
-  big: Mood;
+  big?: Mood;
   small: (
     | HappyDetail
     | OrdinaryDetail

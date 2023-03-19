@@ -9,7 +9,7 @@ const ItemArray = [
   {
     icon: <Icon icon='BottomChattingOff' size={56} />,
     activeIcon: <Icon icon='BottomChattingOn' size={56} />,
-    path: '/chat/new',
+    path: '/chat/entry',
     text: 'Chatting',
   },
   // {

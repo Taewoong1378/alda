@@ -4,6 +4,9 @@ import { localStorageEffect } from '@util';
 
 export const emotionState = atom<Emotion>({
   key: 'emotionState',
-  default: undefined,
+  default: {
+    user: '',
+    small: [],
+  },
   effects: [localStorageEffect('emotionInfo')],
 });

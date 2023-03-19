@@ -3,23 +3,25 @@ import { useRouter } from 'next/router';
 
 import { Icon } from '@components';
 
-export const NewChat = () => {
+export const ChatEntry = ({ isLast }: { isLast: boolean }) => {
   const router = useRouter();
 
   return (
     <>
-      <div className='left-30 top-25 absolute cursor-pointer' onClick={() => router.push('/')}>
+      <div className='left-30 top-25 absolute cursor-pointer' onClick={router.back}>
         <Icon icon='LeftDirection' size={25} color='primary-bg' />
       </div>
       <div className='right-30 absolute top-20 cursor-pointer' onClick={() => router.push('/')}>
         <Icon icon='Home' size={40} color='primary-bg' />
       </div>
       <div className='bg-primary-bg h-full rounded-tr-[50px] pt-16'>
-        <div className='text-AX1-Subhead text-center'>Start New Conversation</div>
+        <div className='text-AX1-Subhead text-center'>
+          {isLast ? 'Start Last Conversation' : 'Start New Conversation'}
+        </div>
       </div>
       <div className='absolute-center'>
         <motion.div
-          onClick={() => router.push('/chat/new/emotional')}
+          onClick={() => router.push('/chat/emotional?hasChatInfo=false')}
           whileTap={{
             scale: 0.9,
           }}
@@ -27,7 +29,7 @@ export const NewChat = () => {
           Emotional Chat
         </motion.div>
         <motion.div
-          onClick={() => router.push('/chat/new/fun')}
+          onClick={() => router.push('/chat/fun')}
           whileTap={{
             scale: 0.9,
           }}
