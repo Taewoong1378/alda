@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -7,8 +8,10 @@ import { BOTTOM_NAVBAR_HEIGHT } from '@constants';
 
 const ItemArray = [
   {
-    icon: <Icon icon='BottomChattingOff' size={56} />,
-    activeIcon: <Icon icon='BottomChattingOn' size={56} />,
+    icon: <Image priority src='/BottomChattingOff.png' width={56} height={56} layout='fixed' />,
+    activeIcon: (
+      <Image priority src='/BottomChattingOn.png' width={56} height={56} layout='fixed' />
+    ),
     path: '/chat/entry',
     text: 'Chatting',
   },
