@@ -4,11 +4,10 @@ import { useRecoilState } from 'recoil';
 import { emotionState, emotionalChatState } from '@recoilState';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import Lottie from 'lottie-react';
+import { useRouter } from 'next/router';
 
 import { Button, Chip } from '@components';
 
-import recordingAnimation from '@assets/lottie/recording.json';
 import { BACKEND_URL, HEADER_HEIGHT, detailMood } from '@constants';
 import { useGetProfile, useWindowSize } from '@hooks';
 
@@ -21,6 +20,8 @@ interface SecondProps {
 }
 
 export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }: SecondProps) => {
+  const router = useRouter();
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
@@ -219,7 +220,14 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
                   className='mt-31'
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 1 }}
+                  transition={Object.assign(
+                    { duration: 1 },
+                    JSON.parse(router.query.hasChatInfo as string)
+                      ? {
+                          delay: 1.5,
+                        }
+                      : {},
+                  )}
                   exit={{ opacity: 0, x: -10 }}>
                   <QuestionBubble
                     isMain={true}
@@ -235,7 +243,14 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
                 className='mt-31'
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1 }}
+                transition={Object.assign(
+                  { duration: 1 },
+                  JSON.parse(router.query.hasChatInfo as string)
+                    ? {
+                        delay: 1.5,
+                      }
+                    : {},
+                )}
                 exit={{ opacity: 0, x: -10 }}>
                 <AnswerBubble answer={<div className='text-AX1-Subhead'>{v.content}</div>} />
               </motion.div>
@@ -300,12 +315,12 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
                   setIsRecording(true);
                 }
               }}>
-              <Lottie
-                animationData={recordingAnimation}
-                loop={true}
-                autoplay={isRecording}
-                style={{ height: 100, width: 300 }}
-              />
+              {/* <Lottie
+                  animationData={recordingAnimation}
+                  loop={true}
+                  autoplay={true}
+                  style={{ height: 100, width: 300 }}
+                /> */}
             </div>
           </>
         )}

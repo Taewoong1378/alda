@@ -16,7 +16,7 @@ export const Header = ({ title }: HeaderProps) => {
 
   return (
     <div
-      className='px-30 bg-primary-bg fixed flex w-full items-center justify-between py-8 shadow-[0px_10px_60px_rgba(0,0,0,0.1)]'
+      className='px-30 bg-primary-bg fixed z-50 flex w-full items-center justify-between py-8 shadow-[0px_10px_60px_rgba(0,0,0,0.1)]'
       style={{
         width: width > 600 ? 598 : width,
         height: HEADER_HEIGHT,
