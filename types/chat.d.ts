@@ -1,5 +1,5 @@
 type Messages = {
-  type: 'user' | 'gpt';
+  type: 'user' | 'system';
   content: string;
 }[];
 

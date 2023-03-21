@@ -21,8 +21,8 @@ export const Home = () => {
     <>
       <div className='px-27 bg-primary-100 py-30 relative w-full rounded-bl-[50px]'>
         <div className='text-center'>
-          <span className='text-AX1-Caption2'>Today is</span>&nbsp;
-          <span className='text-AX1-Subhead'>{getFormattedDate(new Date())}</span>
+          <span className='text-AX1-Caption2'>Date is</span>&nbsp;
+          <span className='text-AX1-Subhead'>{getFormattedDate(selectedDate)}</span>
         </div>
         <hr className='bg-grey-3 mt-6 h-1 w-full' />
         <div className='flex h-[150px] w-full items-center justify-center gap-8'>
@@ -40,7 +40,7 @@ export const Home = () => {
           })}
         </div>
       </div>
-      <div className='mt-50 px-28'>
+      <div className='my-50 px-28'>
         <div
           className='border-secondary-101 relative cursor-pointer rounded-[25px] border-[2px]'
           onClick={() => router.push('/feeling')}>
@@ -53,7 +53,7 @@ export const Home = () => {
           />
           <div className='absolute top-0 h-full w-full rounded-[25px] bg-[rgba(248,247,243,0.3)] blur-[2px] backdrop-filter' />
           <div className='text-secondary-101 bottom-50 font-SFPro absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-[28px] font-semibold'>
-            Today's Feeling
+            Feeling at that time
           </div>
         </div>
       </div>

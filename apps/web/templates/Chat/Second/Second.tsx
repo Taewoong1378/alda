@@ -4,9 +4,11 @@ import { useRecoilState } from 'recoil';
 import { emotionState, emotionalChatState } from '@recoilState';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import Lottie from 'lottie-react';
 
 import { Button, Chip } from '@components';
 
+import recordingAnimation from '@assets/lottie/recording.json';
 import { BACKEND_URL, HEADER_HEIGHT, detailMood } from '@constants';
 import { useGetProfile, useWindowSize } from '@hooks';
 
@@ -23,6 +25,8 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
 
   const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
+  const [isRecording, setIsRecording] = useState<boolean>(false);
+
   const [emotion, setEmotion] = useRecoilState(emotionState);
   const [chat, setChat] = useRecoilState(emotionalChatState);
 
@@ -31,48 +35,68 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
   const { user } = useGetProfile();
   const { height } = useWindowSize();
 
-  function startRecording() {
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then(stream => {
-        const recorder = new MediaRecorder(stream);
-        recorder.addEventListener('dataavailable', event => {
-          setAudioChunks(chunks => [...chunks, event.data]);
-        });
-        recorder.start();
-        setMediaRecorder(recorder);
-      })
-      .catch(error => console.error(error));
-  }
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      recorder.addEventListener('dataavailable', event => {
+        setAudioChunks(chunks => [...chunks, event.data]);
+      });
+      recorder.start();
+      setMediaRecorder(recorder);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  function stopRecording() {
+  const stopRecording = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
     }
-  }
+  };
 
-  // async function sendAudioToServer() {
-  //   const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-  //   const formData = new FormData();
-  //   formData.append('audio', audioBlob, 'recording.wav');
-  //   const response = await fetch('/upload-audio', {
-  //     method: 'POST',
-  //     body: formData,
-  //   });
-  //   const data = await response.json();
-  //   console.log(data);
-  // }
-  async function saveAudio() {
-    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-    const url = URL.createObjectURL(audioBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'recording.wav';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  }
+  const sendAudioToServer = async () => {
+    try {
+      console.log('audioChunks', audioChunks);
+      const audioBlob = new Blob([audioChunks[audioChunks.length - 1]], { type: 'audio/wav' });
+      console.log('audioBlob', audioBlob);
+      const data = {
+        messages: chat.messages,
+        user_id: user?.uid,
+      };
+
+      const formData = new FormData();
+      formData.append(
+        'audio',
+        new File([audioBlob], 'soundBlob', {
+          lastModified: new Date().getTime(),
+          type: 'audio',
+        }),
+      );
+
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      };
+
+      const response = await axios.post(`${BACKEND_URL}/emotion/`, formData, {
+        ...config,
+      });
+
+      // const response = await axios.post(`${BACKEND_URL}/emotion/`, {
+      //   messages: chat.messages,
+      //   user_id: user?.uid,
+      //   audio: new File([audioBlob], 'soundBlob', {
+      //     lastModified: new Date().getTime(),
+      //     type: 'audio',
+      //   }),
+      // });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleClick = useCallback(
     (v: Emotion['small'][number]) => {
@@ -85,11 +109,17 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
     [emotion.small],
   );
 
-  const getChatResponse = async (data: ChatRequest): Promise<ChatResponse> => {
+  const getChatResponse = async (data: ChatRequest): Promise<ChatResponse[]> => {
     const result = await axios.post(`${BACKEND_URL}/emotion/`, data);
 
     return result.data;
   };
+
+  useEffect(() => {
+    if (audioChunks.length) {
+      sendAudioToServer();
+    }
+  }, [audioChunks]);
 
   useEffect(() => {
     if (!!chat.messages.length) setIsSecondQuestionAnswered(true);
@@ -110,32 +140,8 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
   }, [isSecondQuestionAnswered, isLoading, scrollRef]);
 
   useEffect(() => {
-    if (!isSecondQuestionAnswered) return;
-    if (!user) return;
-    if (!emotion.small.length) return;
-
-    if (emotion.big) {
-      // getChatResponse({
-      //   lang: 'eng',
-      //   user_id: user.uid,
-      //   userfeeling_big: emotion.big,
-      //   userfeeling_small: emotion.small,
-      // }).then(res => {
-      //   setIsLoading(false);
-      //   setChat(prev => ({
-      //     user: user.uid,
-      //     messages: [
-      //       ...prev.messages,
-      //       {
-      //         content: res.content,
-      //         type: 'gpt',
-      //       },
-      //     ],
-      //     createdAt: new Date(),
-      //   }));
-      // });
-    }
-  }, [user, emotion.small, isSecondQuestionAnswered]);
+    console.log('isRecording', isRecording);
+  }, [isRecording]);
 
   if (!user) return null;
 
@@ -250,18 +256,57 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
                 ...prev,
                 small: emotion.small,
               }));
+
+              if (emotion.big && emotion.small.length) {
+                getChatResponse({
+                  lang: 'eng',
+                  user_id: user.uid,
+                  userfeeling_big: emotion.big,
+                  userfeeling_small: emotion.small,
+                }).then(res => {
+                  setIsLoading(false);
+                  setChat(prev => ({
+                    user: user.uid,
+                    messages: [
+                      ...prev.messages,
+                      {
+                        content: res[0].content,
+                        type: 'system',
+                      },
+                    ],
+                    createdAt: new Date(),
+                  }));
+                });
+              }
             }}
           />
         ) : (
           <>
-            <Button text='Answer' onClick={startRecording} />
+            {/* <Button text='Answer' onClick={() => {startRecording(); setIsRecording(true);}} />
             <button
               onClick={() => {
                 stopRecording();
-                saveAudio();
               }}>
               Stop Recording and Send Audio to Server
-            </button>
+            </button> */}
+            <div
+              onClick={() => {
+                if (isRecording) {
+                  stopRecording();
+                  sendAudioToServer();
+                  setIsRecording(false);
+                } else {
+                  startRecording();
+                  setIsRecording(true);
+                }
+              }}>
+              <Lottie
+                animationData={recordingAnimation}
+                loop={true}
+                autoplay={isRecording}
+                style={{ height: 100, width: 300 }}
+              />
+            </div>
           </>
         )}
       </div>
