@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import Lottie from 'react-lottie';
 import { useRecoilState } from 'recoil';
 
 import { emotionState, emotionalChatState } from '@recoilState';
-import { convertTimestampToDate } from '@util';
 import axios from 'axios';
+import classNames from 'classnames';
 import { doc, updateDoc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
-import Lottie from 'lottie-react';
 import { useRouter } from 'next/router';
 
-import { Button, Chip } from '@components';
+import { Button, Chip, Icon } from '@components';
 
 import { db } from '@config';
 
@@ -63,9 +63,9 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
   };
 
   const stopRecording = () => {
+    setIsRecording(false);
     if (mediaRecorder) {
       mediaRecorder.stop();
-      setIsRecording(false);
     }
   };
 
@@ -76,6 +76,7 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
       const formData = new FormData();
       formData.append('messages', JSON.stringify(chat.messages));
       formData.append('user_id', user?.uid as string);
+      formData.append('language', 'eng');
       formData.append('audio', audioBlob, 'recording.wav');
 
       const config = {
@@ -115,27 +116,6 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
     if (!user || !user.uid) return;
 
     const docRef = doc(db, 'User', user.uid);
-    await updateDoc(docRef, {
-      emotion: [
-        ...user.emotion,
-        {
-          big: emotion.big,
-          small: emotion.small,
-          createdAt: convertTimestampToDate(new Date()),
-        },
-      ],
-      chat: [
-        ...user.chat,
-        {
-          messages: chat.messages,
-          createdAt: convertTimestampToDate(new Date()),
-        },
-      ],
-    });
-    await axios.post(`${BACKEND_URL}/save/`, {
-      meesages: chat.messages,
-      user_id: user.uid,
-    });
 
     const { data } = await axios.post(`${BACKEND_URL}/image/`, {
       messages: chat.messages,
@@ -143,9 +123,41 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
       language: 'eng',
     });
 
-    console.log('data', data);
+    await updateDoc(docRef, {
+      emotion: [
+        ...user.emotion,
+        {
+          big: emotion.big,
+          small: emotion.small,
+          createdAt: new Date(),
+        },
+      ],
+      chat: [
+        ...user.chat,
+        {
+          messages: chat.messages,
+          createdAt: new Date(),
+        },
+      ],
+      image: [
+        ...user.image,
+        {
+          image: data.image,
+          createdAt: new Date(),
+        },
+      ],
+    });
 
     resetUser();
+  };
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: isRecording,
+    animationData: recordingAnimation,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
   };
 
   useEffect(() => {
@@ -287,8 +299,8 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
         {isLoading && <Loading />}
       </motion.div>
       <div ref={scrollRef} />
-      <div className='fixed left-1/2 bottom-60 -translate-x-1/2'>
-        {!isSecondQuestionAnswered ? (
+      <div className='fixed left-1/2 bottom-60 flex -translate-x-1/2 flex-col items-center'>
+        {!isSecondQuestionAnswered && (
           <Button
             text='Next'
             disabled={!emotion.small.length}
@@ -313,8 +325,8 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
                     messages: [
                       ...prev.messages,
                       {
-                        content: res[0].content,
                         role: 'system',
+                        content: res[0].content,
                       },
                     ],
                     createdAt: new Date(),
@@ -323,16 +335,13 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
               }
             }}
           />
-        ) : (
+        )}
+      </div>
+      {isSecondQuestionAnswered && (
+        <div className='bottom-30 fixed left-1/2 flex -translate-x-1/2 flex-col items-center'>
           <>
-            {/* <Button text='Answer' onClick={() => {startRecording(); setIsRecording(true);}} />
-            <button
-              onClick={() => {
-                stopRecording();
-              }}>
-              Stop Recording and Send Audio to Server
-            </button> */}
             <div
+              className={classNames(isLoading && 'pointer-events-none')}
               onClick={() => {
                 if (isRecording) {
                   stopRecording();
@@ -342,16 +351,20 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
                 }
               }}>
               <Lottie
-                animationData={recordingAnimation}
-                loop={true}
-                // autoplay={true}
-                style={{ height: 100, width: 300 }}
+                options={defaultOptions}
+                style={{ height: 100, width: 120 }}
+                isStopped={!isRecording}
               />
             </div>
-            <Button text='Finish' onClick={finishChatting} />
+            <button
+              className='disabled:bg-grey-1 disabled:border-grey-1 text-AX1-Subhead enabled:border-grey-6 enabled:text-grey-6 pr-34 flex flex-row items-center rounded-[50px] border-[2px] bg-white py-3 pl-40 disabled:border-opacity-0 disabled:bg-opacity-30'
+              onClick={finishChatting}>
+              <div className='whitespace-nowrap'>Chat End</div>
+              <Icon icon='RightDirectionSmall' size={20} color='black' />
+            </button>
           </>
-        )}
-      </div>
+        </div>
+      )}
     </motion.div>
   );
 };

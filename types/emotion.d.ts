@@ -18,5 +18,5 @@ interface Emotion {
     | DepressedDetail
     | AngryDetail
   )[];
-  createdAt?: string;
+  createdAt?: Date;
 }

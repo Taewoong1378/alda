@@ -37,7 +37,12 @@ export const First = ({ setIsFirstQuestionAnswered }: FirstProps) => {
                 key={v.id}
                 text={v.text}
                 onClick={() => {
-                  setEmotion({ user: user?.uid, big: v.text, small: [] });
+                  setEmotion({
+                    user: user?.uid,
+                    big: v.text,
+                    small: [],
+                    createdAt: new Date(),
+                  });
                 }}
                 isSelected={v.text === emotion.big}
               />

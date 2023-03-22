@@ -5,4 +5,5 @@ interface User {
   lastName: string;
   emotion: Emotion[];
   chat: Chat[];
+  image: string[];
 }

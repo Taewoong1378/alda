@@ -1,16 +1,30 @@
 import { useEffect, useState } from 'react';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 
+import { emotionState, emotionalChatState, smallFunChatState } from '@recoilState';
 import { convertDateToYYYYMMDD, convertTimestampToDate } from '@util';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 
-import { Icon } from '@components';
+import { Icon, Portal } from '@components';
 
 import { Storage } from '@constants';
-import { useGetProfile } from '@hooks';
+import { useGetProfile, useWindowSize } from '@hooks';
 
 export const ChatEntry = () => {
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [modalType, setModalType] = useState<'emotional' | 'fun'>();
+
+  const { width } = useWindowSize();
   const { user } = useGetProfile();
+
+  const [emotionalChat] = useRecoilState(emotionalChatState);
+  const resetEmotionalChat = useResetRecoilState(emotionalChatState);
+
+  const [smallFunChat] = useRecoilState(smallFunChatState);
+  const resetSmallFunChat = useResetRecoilState(smallFunChatState);
+
+  const resetEmotionInfo = useResetRecoilState(emotionState);
 
   const [isAlreadyChatToday, setIsAlreadyChatToday] = useState<boolean>(false);
 
@@ -19,7 +33,7 @@ export const ChatEntry = () => {
   useEffect(() => {
     if (user) {
       setIsAlreadyChatToday(
-        !!user.chat.filter(v => {
+        !!user.chat?.filter(v => {
           if (v.createdAt) {
             return (
               convertDateToYYYYMMDD(convertTimestampToDate(v.createdAt)) ===
@@ -31,9 +45,23 @@ export const ChatEntry = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    if (smallFunChat.createdAt) {
+      if (convertDateToYYYYMMDD(smallFunChat.createdAt) !== convertDateToYYYYMMDD(new Date())) {
+        return resetSmallFunChat();
+      }
+    }
+
+    if (emotionalChat.createdAt) {
+      if (convertDateToYYYYMMDD(emotionalChat.createdAt) !== convertDateToYYYYMMDD(new Date())) {
+        return resetEmotionalChat();
+      }
+    }
+  }, [emotionalChat, smallFunChat]);
+
   return (
     <>
-      <div className='left-30 top-25 absolute cursor-pointer' onClick={router.back}>
+      <div className='left-30 top-25 absolute cursor-pointer' onClick={() => router.push('/')}>
         <Icon icon='LeftDirection' size={25} color='primary-bg' />
       </div>
       <div className='right-30 absolute top-20 cursor-pointer' onClick={() => router.push('/')}>
@@ -45,25 +73,21 @@ export const ChatEntry = () => {
       <div className='absolute-center'>
         <motion.div
           onClick={() => {
-            // if (isAlreadyChatToday) {
-            //   return alert('You already chatted today. Please try again tomorrow.');
-            // }
-            // return router.push('/chat/emotional?hasChatInfo=false');
             if (isAlreadyChatToday) {
-              alert('You already chatted today. Please try again tomorrow.');
-              router.push('/chat/fun');
-              return;
+              return alert('You already recorded your emotion today. Please try tomorrow.');
             }
 
-            if (localStorage.getItem(Storage.EMOTIONAL_CHAT))
-              return router.push('/chat/emotional?hasChatInfo=true');
-
-            if (localStorage.getItem(Storage.EMOTION))
-              return router.push('/chat/emotional?hasChatInfo=false');
-
-            alert("No last conversation. You'll be taken to a new conversation page.");
-            router.push('/chat?isLast=false');
-            return;
+            if (
+              localStorage.getItem(Storage.EMOTIONAL_CHAT) ||
+              localStorage.getItem(Storage.EMOTION)
+            ) {
+              setModalVisible(true);
+              setModalType('emotional');
+              return;
+            } else {
+              router.push('/chat/emotional?hasChatInfo=false');
+              return;
+            }
           }}
           whileTap={{
             scale: 0.9,
@@ -73,12 +97,17 @@ export const ChatEntry = () => {
         </motion.div>
         <motion.div
           onClick={() => {
-            if (localStorage.getItem(Storage.SMALL_FUN_CHAT))
-              return router.push('/chat/fun?hasChatInfo=true');
-
-            alert("No last conversation. You'll be taken to a new conversation page.");
-            router.push('/chat/fun?hasChatInfo=false');
-            return;
+            if (
+              localStorage.getItem(Storage.EMOTIONAL_CHAT) ||
+              localStorage.getItem(Storage.EMOTION)
+            ) {
+              setModalVisible(true);
+              setModalType('fun');
+              return;
+            } else {
+              router.push('/chat/fun');
+              return;
+            }
           }}
           whileTap={{
             scale: 0.9,
@@ -87,6 +116,64 @@ export const ChatEntry = () => {
           Small Fun Chat
         </motion.div>
       </div>
+      {modalVisible && (
+        <Portal onClickBackground={() => setModalVisible(false)}>
+          <div
+            style={{
+              width: width - 70,
+            }}
+            className='absolute-center flex justify-center'
+            onClick={() => setModalVisible(false)}>
+            <div
+              className='flex h-full w-full flex-col items-center rounded-xl bg-[#F2F2F2] bg-opacity-80 pt-16 backdrop-blur-sm backdrop-filter'
+              onClick={e => e.stopPropagation()}>
+              <div className='text-[17px] font-bold'>Continue last Conversation?</div>
+              <div className='mt-4 text-center'>Do you want to continue last conversation?</div>
+              <div className='mt-16 flex w-full flex-row items-center justify-evenly border-t-[0.5px] border-[rgba(60,60,67,0.36)]'>
+                <div
+                  className='w-full border-r-[0.5px] border-[rgba(60,60,67,0.36)] px-16 py-11 text-center text-[17px] text-[#007AFF]'
+                  onClick={() => {
+                    if (modalType === 'emotional') {
+                      if (isAlreadyChatToday) {
+                        return alert('You already chatted today. Please try again tomorrow.');
+                      }
+                      resetEmotionalChat();
+                      resetEmotionInfo();
+                      router.push('/chat/emotional?hasChatInfo=false');
+                      return;
+                    }
+
+                    if (modalType === 'fun') {
+                      resetSmallFunChat();
+                      router.push('/chat/fun');
+                      return;
+                    }
+                  }}>
+                  Start New
+                </div>
+                <div
+                  className='w-full px-16 py-11 text-center text-[17px] text-[#007AFF]'
+                  onClick={() => {
+                    if (modalType === 'emotional') {
+                      if (localStorage.getItem(Storage.EMOTIONAL_CHAT))
+                        return router.push('/chat/emotional?hasChatInfo=true');
+
+                      if (localStorage.getItem(Storage.EMOTION))
+                        return router.push('/chat/emotional?hasChatInfo=false');
+                    }
+
+                    if (modalType === 'fun') {
+                      if (localStorage.getItem(Storage.SMALL_FUN_CHAT))
+                        return router.push('/chat/fun?hasChatInfo=true');
+                    }
+                  }}>
+                  Continue
+                </div>
+              </div>
+            </div>
+          </div>
+        </Portal>
+      )}
     </>
   );
 };
