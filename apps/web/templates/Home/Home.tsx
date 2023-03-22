@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { convertDateToYYYYMMDD } from '@util';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
@@ -19,9 +20,12 @@ export const Home = () => {
 
   return (
     <>
-      <div className='px-27 bg-primary-100 py-30 relative w-full rounded-bl-[50px]'>
+      <div className='bg-primary-100 py-30 relative w-full rounded-bl-[50px] px-16'>
         <div className='text-center'>
-          <span className='text-AX1-Caption2'>Date is</span>&nbsp;
+          <span className='text-AX1-Caption2'>
+            {selectedDate.getDate() === new Date().getDate() ? 'Today is' : 'Looking at'}
+          </span>
+          &nbsp;
           <span className='text-AX1-Subhead'>{getFormattedDate(selectedDate)}</span>
         </div>
         <hr className='bg-grey-3 mt-6 h-1 w-full' />
@@ -43,7 +47,7 @@ export const Home = () => {
       <div className='my-30 px-28'>
         <div
           className='border-secondary-101 relative cursor-pointer rounded-[25px] border-[2px]'
-          onClick={() => router.push('/feeling')}>
+          onClick={() => router.push(`/feeling?date=${convertDateToYYYYMMDD(selectedDate)}`)}>
           <Image
             src='/happy.jpg'
             width={300}
@@ -53,7 +57,7 @@ export const Home = () => {
           />
           <div className='absolute top-0 h-full w-full rounded-[25px] bg-[rgba(248,247,243,0.3)] blur-[2px] backdrop-filter' />
           <div className='text-secondary-101 bottom-50 font-SFPro absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-[28px] font-semibold'>
-            Feeling at that time
+            Today's Feeling
           </div>
         </div>
       </div>
