@@ -10,6 +10,7 @@ import BottomSettingsOff from '../../assets/icon/bottom-settings-off.svg';
 import BottomSettingsOn from '../../assets/icon/bottom-settings-on.svg';
 import Home from '../../assets/icon/home.svg';
 import LeftDirection from '../../assets/icon/left-direction.svg';
+import RightDirectionSmall from '../../assets/icon/right-direction-small.svg';
 import RightDirection from '../../assets/icon/right-direction.svg';
 
 export const image = {
@@ -24,6 +25,7 @@ export const image = {
   Home,
   LeftDirection,
   RightDirection,
+  RightDirectionSmall,
 };
 
 export type IconType = keyof typeof image;
