@@ -1,25 +1,41 @@
-import { useState } from 'react';
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import { useEffect, useState } from 'react';
+import { useResetRecoilState } from 'recoil';
 
-import { emotionState, emotionalChatState, smallFunChatState } from '@recoilState';
+import { emotionState, emotionalChatState } from '@recoilState';
+import { convertDateToYYYYMMDD, convertTimestampToDate } from '@util';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 
 import { Storage } from '@constants';
-import { useWindowSize } from '@hooks';
+import { useGetProfile } from '@hooks';
 
 export const Chat = () => {
-  const [isModalShow, setIsModalShow] = useState(false);
+  const { user } = useGetProfile();
 
-  const { width } = useWindowSize();
+  const [isAlreadyChatToday, setIsAlreadyChatToday] = useState<boolean>(false);
 
   const router = useRouter();
   const resetEmotionalChat = useResetRecoilState(emotionalChatState);
   const resetEmotion = useResetRecoilState(emotionState);
 
-  const [emotion] = useRecoilState(emotionState);
-  const [emotionalChat] = useRecoilState(emotionalChatState);
-  const [smallFunChat] = useRecoilState(smallFunChatState);
+  // const [emotion] = useRecoilState(emotionState);
+  // const [emotionalChat] = useRecoilState(emotionalChatState);
+  // const [smallFunChat] = useRecoilState(smallFunChatState);
+
+  useEffect(() => {
+    if (user) {
+      setIsAlreadyChatToday(
+        !!user.chat.filter(v => {
+          if (v.createdAt) {
+            return (
+              convertDateToYYYYMMDD(convertTimestampToDate(v.createdAt)) ===
+              convertDateToYYYYMMDD(new Date())
+            );
+          }
+        }).length,
+      );
+    }
+  }, [user]);
 
   return (
     <>
@@ -35,6 +51,12 @@ export const Chat = () => {
               return router.push('/chat/emotional?hasChatInfo=false');
 
             if (localStorage.getItem(Storage.SMALL_FUN_CHAT)) return router.push('/chat/fun');
+
+            if (isAlreadyChatToday) {
+              alert('You already chatted today. Please try again tomorrow.');
+              router.push('/chat/fun');
+              return;
+            }
 
             alert("No last conversation. You'll be taken to a new conversation page.");
             router.push('/chat?isLast=false');

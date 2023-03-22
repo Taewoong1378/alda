@@ -1,11 +1,8 @@
-import { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import { weatherState } from '@recoilState';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 
-import { Loading } from '@components';
 import { EmotionalChat } from '@templates';
 
 import { useGetLocation, useWindowSize } from '@hooks';
@@ -15,30 +12,30 @@ export default function EmotionalChatPage() {
 
   const setWeather = useSetRecoilState(weatherState);
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const { myLocation } = useGetLocation();
   const { height } = useWindowSize();
 
   const hasChatInfo = router.query.hasChatInfo as string;
 
-  const getWeather = async () => {
-    const { data } = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${myLocation?.latitude}&lon=${myLocation?.longitude}&appid=${process.env.NEXT_PUBLIC_WEATHER_API}`,
-    );
-    return data;
-  };
+  // const getWeather = async () => {
+  //   const { data } = await axios.get(
+  //     `https://api.openweathermap.org/data/2.5/weather?lat=${myLocation?.latitude}&lon=${myLocation?.longitude}&appid=${process.env.NEXT_PUBLIC_WEATHER_API}`,
+  //   );
+  //   return data;
+  // };
 
-  useEffect(() => {
-    if (myLocation) {
-      getWeather().then(data => {
-        setWeather(data.weather[0].main);
-        setIsLoading(false);
-      });
-    }
-  }, [myLocation]);
+  // useEffect(() => {
+  //   if (myLocation) {
+  //     getWeather().then(data => {
+  //       setWeather(data.weather[0].main);
+  //       setIsLoading(false);
+  //     });
+  //   }
+  // }, [myLocation]);
 
-  if (isLoading) return <Loading />;
+  // if (isLoading) return <Loading />;
 
   return (
     <>

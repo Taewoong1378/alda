@@ -12,7 +12,7 @@ const ItemArray = [
     activeIcon: (
       <Image priority src='/BottomChattingOn.png' width={56} height={56} layout='fixed' />
     ),
-    path: '/chat/entry',
+    path: '/chat',
     text: 'Chatting',
   },
   // {

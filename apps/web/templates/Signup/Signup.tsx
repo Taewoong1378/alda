@@ -40,6 +40,8 @@ export const SignUp = () => {
           email,
           firstName,
           lastName,
+          emotion: [],
+          chat: [],
         });
         setIsLoading(false);
       }

@@ -2,12 +2,18 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { emotionState, emotionalChatState } from '@recoilState';
+import { convertTimestampToDate } from '@util';
 import axios from 'axios';
+import { doc, updateDoc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
+import Lottie from 'lottie-react';
 import { useRouter } from 'next/router';
 
 import { Button, Chip } from '@components';
 
+import { db } from '@config';
+
+import recordingAnimation from '@assets/lottie/recording.json';
 import { BACKEND_URL, HEADER_HEIGHT, detailMood } from '@constants';
 import { useGetProfile, useWindowSize } from '@hooks';
 
@@ -20,6 +26,8 @@ interface SecondProps {
 }
 
 export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }: SecondProps) => {
+  const lottieRef = useRef();
+
   const router = useRouter();
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -33,10 +41,14 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const { user } = useGetProfile();
+  const [imgSrc, setImgSrc] = useState<string>('');
+
+  const { user, resetUser } = useGetProfile();
   const { height } = useWindowSize();
 
   const startRecording = async () => {
+    setIsRecording(true);
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const recorder = new MediaRecorder(stream);
@@ -53,27 +65,18 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
   const stopRecording = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
+      setIsRecording(false);
     }
   };
 
   const sendAudioToServer = async () => {
     try {
-      console.log('audioChunks', audioChunks);
       const audioBlob = new Blob([audioChunks[audioChunks.length - 1]], { type: 'audio/wav' });
-      console.log('audioBlob', audioBlob);
-      const data = {
-        messages: chat.messages,
-        user_id: user?.uid,
-      };
 
       const formData = new FormData();
-      formData.append(
-        'audio',
-        new File([audioBlob], 'soundBlob', {
-          lastModified: new Date().getTime(),
-          type: 'audio',
-        }),
-      );
+      formData.append('messages', JSON.stringify(chat.messages));
+      formData.append('user_id', user?.uid as string);
+      formData.append('audio', audioBlob, 'recording.wav');
 
       const config = {
         headers: {
@@ -84,16 +87,8 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
       const response = await axios.post(`${BACKEND_URL}/emotion/`, formData, {
         ...config,
       });
-
-      // const response = await axios.post(`${BACKEND_URL}/emotion/`, {
-      //   messages: chat.messages,
-      //   user_id: user?.uid,
-      //   audio: new File([audioBlob], 'soundBlob', {
-      //     lastModified: new Date().getTime(),
-      //     type: 'audio',
-      //   }),
-      // });
-      console.log(response.data);
+      setIsLoading(false);
+      setChat({ ...chat, messages: [...chat.messages, ...response.data] });
     } catch (error) {
       console.error(error);
     }
@@ -114,6 +109,43 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
     const result = await axios.post(`${BACKEND_URL}/emotion/`, data);
 
     return result.data;
+  };
+
+  const finishChatting = async () => {
+    if (!user || !user.uid) return;
+
+    const docRef = doc(db, 'User', user.uid);
+    await updateDoc(docRef, {
+      emotion: [
+        ...user.emotion,
+        {
+          big: emotion.big,
+          small: emotion.small,
+          createdAt: convertTimestampToDate(new Date()),
+        },
+      ],
+      chat: [
+        ...user.chat,
+        {
+          messages: chat.messages,
+          createdAt: convertTimestampToDate(new Date()),
+        },
+      ],
+    });
+    await axios.post(`${BACKEND_URL}/save/`, {
+      meesages: chat.messages,
+      user_id: user.uid,
+    });
+
+    const { data } = await axios.post(`${BACKEND_URL}/image/`, {
+      messages: chat.messages,
+      user_id: user.uid,
+      language: 'eng',
+    });
+
+    console.log('data', data);
+
+    resetUser();
   };
 
   useEffect(() => {
@@ -139,10 +171,6 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
       });
     }
   }, [isSecondQuestionAnswered, isLoading, scrollRef]);
-
-  useEffect(() => {
-    console.log('isRecording', isRecording);
-  }, [isRecording]);
 
   if (!user) return null;
 
@@ -286,7 +314,7 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
                       ...prev.messages,
                       {
                         content: res[0].content,
-                        type: 'system',
+                        role: 'system',
                       },
                     ],
                     createdAt: new Date(),
@@ -308,20 +336,19 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
               onClick={() => {
                 if (isRecording) {
                   stopRecording();
-                  sendAudioToServer();
-                  setIsRecording(false);
+                  setIsLoading(true);
                 } else {
                   startRecording();
-                  setIsRecording(true);
                 }
               }}>
-              {/* <Lottie
-                  animationData={recordingAnimation}
-                  loop={true}
-                  autoplay={true}
-                  style={{ height: 100, width: 300 }}
-                /> */}
+              <Lottie
+                animationData={recordingAnimation}
+                loop={true}
+                // autoplay={true}
+                style={{ height: 100, width: 300 }}
+              />
             </div>
+            <Button text='Finish' onClick={finishChatting} />
           </>
         )}
       </div>

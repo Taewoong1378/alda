@@ -8,8 +8,6 @@ export default function ChatPage() {
   const { height } = useWindowSize();
   const router = useRouter();
 
-  const isLast = router.query.isLast as string;
-
   return (
     <>
       <main
@@ -17,7 +15,7 @@ export default function ChatPage() {
         style={{
           height,
         }}>
-        <ChatEntry isLast={isLast ? JSON.parse(isLast) : false} />
+        <ChatEntry />
       </main>
     </>
   );

@@ -3,6 +3,6 @@ interface User {
   email: string;
   firstName: string;
   lastName: string;
-  emotion: Emotion;
-  chat: Chat;
+  emotion: Emotion[];
+  chat: Chat[];
 }

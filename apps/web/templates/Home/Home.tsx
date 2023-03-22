@@ -40,7 +40,7 @@ export const Home = () => {
           })}
         </div>
       </div>
-      <div className='my-50 px-28'>
+      <div className='my-30 px-28'>
         <div
           className='border-secondary-101 relative cursor-pointer rounded-[25px] border-[2px]'
           onClick={() => router.push('/feeling')}>

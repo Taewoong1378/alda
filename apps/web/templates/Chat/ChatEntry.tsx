@@ -1,10 +1,35 @@
+import { useEffect, useState } from 'react';
+
+import { convertDateToYYYYMMDD, convertTimestampToDate } from '@util';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 
 import { Icon } from '@components';
 
-export const ChatEntry = ({ isLast }: { isLast: boolean }) => {
+import { Storage } from '@constants';
+import { useGetProfile } from '@hooks';
+
+export const ChatEntry = () => {
+  const { user } = useGetProfile();
+
+  const [isAlreadyChatToday, setIsAlreadyChatToday] = useState<boolean>(false);
+
   const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      setIsAlreadyChatToday(
+        !!user.chat.filter(v => {
+          if (v.createdAt) {
+            return (
+              convertDateToYYYYMMDD(convertTimestampToDate(v.createdAt)) ===
+              convertDateToYYYYMMDD(new Date())
+            );
+          }
+        }).length,
+      );
+    }
+  }, [user]);
 
   return (
     <>
@@ -15,13 +40,31 @@ export const ChatEntry = ({ isLast }: { isLast: boolean }) => {
         <Icon icon='Home' size={40} color='primary-bg' />
       </div>
       <div className='bg-primary-bg h-full rounded-tr-[50px] pt-16'>
-        <div className='text-AX1-Subhead text-center'>
-          {isLast ? 'Start Last Conversation' : 'Start New Conversation'}
-        </div>
+        <div className='text-AX1-Subhead text-center'>Start Conversation</div>
       </div>
       <div className='absolute-center'>
         <motion.div
-          onClick={() => router.push('/chat/emotional?hasChatInfo=false')}
+          onClick={() => {
+            // if (isAlreadyChatToday) {
+            //   return alert('You already chatted today. Please try again tomorrow.');
+            // }
+            // return router.push('/chat/emotional?hasChatInfo=false');
+            if (isAlreadyChatToday) {
+              alert('You already chatted today. Please try again tomorrow.');
+              router.push('/chat/fun');
+              return;
+            }
+
+            if (localStorage.getItem(Storage.EMOTIONAL_CHAT))
+              return router.push('/chat/emotional?hasChatInfo=true');
+
+            if (localStorage.getItem(Storage.EMOTION))
+              return router.push('/chat/emotional?hasChatInfo=false');
+
+            alert("No last conversation. You'll be taken to a new conversation page.");
+            router.push('/chat?isLast=false');
+            return;
+          }}
           whileTap={{
             scale: 0.9,
           }}
@@ -29,7 +72,14 @@ export const ChatEntry = ({ isLast }: { isLast: boolean }) => {
           Emotional Chat
         </motion.div>
         <motion.div
-          onClick={() => router.push('/chat/fun')}
+          onClick={() => {
+            if (localStorage.getItem(Storage.SMALL_FUN_CHAT))
+              return router.push('/chat/fun?hasChatInfo=true');
+
+            alert("No last conversation. You'll be taken to a new conversation page.");
+            router.push('/chat/fun?hasChatInfo=false');
+            return;
+          }}
           whileTap={{
             scale: 0.9,
           }}

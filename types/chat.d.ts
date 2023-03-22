@@ -1,5 +1,5 @@
 type Messages = {
-  type: 'user' | 'system';
+  role: 'user' | 'system';
   content: string;
 }[];
 
