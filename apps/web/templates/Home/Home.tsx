@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { convertDateToYYYYMMDD, convertTimestampToDate } from '@util';
 import classNames from 'classnames';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { useGetLocation, useGetProfile } from '@hooks';
@@ -61,7 +62,7 @@ export const Home = () => {
             return router.push(`/feeling?date=${convertDateToYYYYMMDD(selectedDate)}`);
           }}>
           {emotionalChat?.image ? (
-            <img src={emotionalChat.image} width={300} height={300} className='rounded-[23px]' />
+            <Image src={emotionalChat.image} width={300} height={300} className='rounded-[23px]' />
           ) : (
             <img
               src='/no-data.png'
