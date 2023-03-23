@@ -15,7 +15,7 @@ import { useWindowSize } from '@hooks';
 export const SignUp = () => {
   const router = useRouter();
 
-  const { width, height } = useWindowSize();
+  const { height } = useWindowSize();
 
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(0);

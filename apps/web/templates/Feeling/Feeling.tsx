@@ -78,7 +78,7 @@ export const Feeling = ({ date }: { date: string }) => {
         <div className='text-AX1-Subhead text-secondary-101 text-center'>Chatting Summary</div>
         <div className='text-AX1-Caption2 mt-20 text-center'>We talked about...</div>
         <div className='mt-20 flex w-full flex-row items-center justify-between gap-20'>
-          <div className='flex w-full flex-col gap-20'>
+          <div className='gap-15 flex w-full flex-col'>
             {chat?.summary.map((v, i) => {
               return (
                 <div
@@ -89,7 +89,13 @@ export const Feeling = ({ date }: { date: string }) => {
               );
             })}
           </div>
-          <img width={90} height={90} src='/full-chat.png' className='cursor-pointer' />
+          <img
+            width={90}
+            height={90}
+            src='/full-chat.png'
+            className='cursor-pointer'
+            onClick={() => router.push(`/chat-summary?date=${date}`)}
+          />
         </div>
       </div>
     );
@@ -99,7 +105,7 @@ export const Feeling = ({ date }: { date: string }) => {
     <>
       <Header />
       <div
-        className='px-28'
+        className='px-28 pb-40'
         style={{
           paddingTop: HEADER_HEIGHT + 50,
         }}>
