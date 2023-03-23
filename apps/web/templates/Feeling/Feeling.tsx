@@ -38,7 +38,10 @@ export const Feeling = ({ date }: { date: string }) => {
           <Icon icon='LeftDirection' size={25} color='primary-bg' />
         </div>
         <div>
-          <span className='text-AX1-Caption2 text-grey-3'>Today is</span>&nbsp;&nbsp;
+          <span className='text-AX1-Caption2 text-grey-3'>
+            {date === convertDateToYYYYMMDD(new Date()) ? 'Today is' : 'Looking at'}
+          </span>
+          &nbsp;&nbsp;
           <span className='text-AX1-Subhead text-grey-3'>
             {`${getFormattedDate(new Date(date)).split(' ')[0]}
             ${getFormattedDate(new Date(date)).split(' ')[1]}`}

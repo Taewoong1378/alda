@@ -1,27 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Lottie from 'react-lottie';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
-import { smallFunChatState, userState } from '@recoilState';
+import { smallFunChatState } from '@recoilState';
 import axios from 'axios';
 import classNames from 'classnames';
-import { doc, updateDoc } from 'firebase/firestore';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { Header, Icon } from '@components';
-
-import { db } from '@config';
+import { Button, Header } from '@components';
 
 import recordingAnimation from '@assets/lottie/recording.json';
 import { BACKEND_URL, HEADER_HEIGHT } from '@constants';
 import { useGetProfile, useWindowSize } from '@hooks';
 
 import { Loading } from './Second/components';
-import { QuestionBubble } from './components';
+import { AnswerBubble, QuestionBubble } from './components';
 
 export const FunnyChat = () => {
   const { user } = useGetProfile();
   const { height } = useWindowSize();
+
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
@@ -29,7 +28,6 @@ export const FunnyChat = () => {
 
   const [chat, setChat] = useRecoilState(smallFunChatState);
   const resetFunChat = useResetRecoilState(smallFunChatState);
-  const resetUser = useResetRecoilState(userState);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -83,23 +81,8 @@ export const FunnyChat = () => {
     }
   };
 
-  const finishChatting = async () => {
-    if (!user || !user.uid) return;
-
-    const docRef = doc(db, 'User', user.uid);
-
-    await updateDoc(docRef, {
-      funChat: [
-        ...user.funChat,
-        {
-          messages: chat.messages,
-          createdAt: new Date(),
-          summary: [],
-        },
-      ],
-    });
-
-    resetUser();
+  const startNewChat = () => {
+    resetFunChat();
   };
 
   const defaultOptions = {
@@ -110,6 +93,30 @@ export const FunnyChat = () => {
       preserveAspectRatio: 'xMidYMid slice',
     },
   };
+
+  const renderAnswerIcon = () => {
+    if (isLoading) return null;
+
+    if (isRecording) {
+      return <Lottie options={defaultOptions} style={{ height: 100, width: 120 }} />;
+    }
+
+    return <Button text='Answer' className='mb-16 w-full' />;
+  };
+
+  useEffect(() => {
+    if (audioChunks.length) {
+      sendAudioToServer();
+    }
+  }, [audioChunks]);
+
+  useEffect(() => {
+    if (!isLoading && scrollRef.current) {
+      return scrollRef.current.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+  }, [isLoading, scrollRef]);
 
   if (!user) return null;
 
@@ -140,9 +147,40 @@ export const FunnyChat = () => {
             />
           </motion.div>
         </motion.div>
+        {!!chat.messages.length &&
+          chat.messages.map((v, i) => {
+            if (i % 2 === 0) {
+              return (
+                <motion.div
+                  key={i}
+                  className='mt-31'
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 1 }}
+                  exit={{ opacity: 0, x: -10 }}>
+                  <QuestionBubble
+                    isMain={true}
+                    question={<div className='text-AX1-Subhead'>{v.content}</div>}
+                  />
+                </motion.div>
+              );
+            }
+
+            return (
+              <motion.div
+                key={i}
+                className='mt-31'
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1 }}
+                exit={{ opacity: 0, x: -10 }}>
+                <AnswerBubble answer={<div className='text-AX1-Subhead'>{v.content}</div>} />
+              </motion.div>
+            );
+          })}
         {isLoading && <Loading />}
         <div className='bottom-30 fixed left-1/2 flex -translate-x-1/2 flex-col items-center'>
-          <>
+          <div className='w-full'>
             <div
               className={classNames(isLoading && 'pointer-events-none')}
               onClick={() => {
@@ -153,19 +191,10 @@ export const FunnyChat = () => {
                   startRecording();
                 }
               }}>
-              <Lottie
-                options={defaultOptions}
-                style={{ height: 100, width: 120 }}
-                isStopped={!isRecording}
-              />
+              {renderAnswerIcon()}
             </div>
-            <button
-              className='disabled:bg-grey-1 disabled:border-grey-1 text-AX1-Subhead enabled:border-grey-6 enabled:text-grey-6 pr-34 flex flex-row items-center rounded-[50px] border-[2px] bg-white py-3 pl-40 disabled:border-opacity-0 disabled:bg-opacity-30'
-              onClick={finishChatting}>
-              <div className='whitespace-nowrap'>Chat End</div>
-              <Icon icon='RightDirectionSmall' size={20} color='black' />
-            </button>
-          </>
+            <Button text='New chat' onClick={startNewChat} disabled={isLoading} />
+          </div>
         </div>
       </AnimatePresence>
     </>
