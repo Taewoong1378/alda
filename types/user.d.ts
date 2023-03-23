@@ -4,6 +4,6 @@ interface User {
   firstName: string;
   lastName: string;
   emotion: Emotion[];
-  chat: Chat[];
-  image: string[];
+  emotionalChat: EmotionalChat[];
+  funChat: FunChat[];
 }

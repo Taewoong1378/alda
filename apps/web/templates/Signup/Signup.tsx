@@ -41,8 +41,8 @@ export const SignUp = () => {
           firstName,
           lastName,
           emotion: [],
-          chat: [],
-          image: [],
+          emotionalChat: [],
+          funChat: [],
         });
         setIsLoading(false);
       }

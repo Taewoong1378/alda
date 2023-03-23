@@ -3,10 +3,19 @@ type Messages = {
   content: string;
 }[];
 
-interface Chat {
+interface EmotionalChat {
   createdAt?: Date;
   user: string;
   messages: Messages;
+  image: string;
+  summary: string[];
+}
+
+interface FunChat {
+  createdAt?: Date;
+  user: string;
+  messages: Messages;
+  summary: string[];
 }
 
 interface ChatRequest {

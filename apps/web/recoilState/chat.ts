@@ -4,22 +4,25 @@ import { localStorageEffect } from '@util';
 
 import { Storage } from '@constants';
 
-export const emotionalChatState = atom<Chat>({
+export const emotionalChatState = atom<EmotionalChat>({
   key: 'emotionalChatState',
   default: {
     createdAt: new Date(),
     user: '',
     messages: [],
+    image: '',
+    summary: [],
   },
   effects: [localStorageEffect(Storage.EMOTIONAL_CHAT)],
 });
 
-export const smallFunChatState = atom<Chat>({
+export const smallFunChatState = atom<FunChat>({
   key: 'smallFunChatState',
   default: {
     createdAt: new Date(),
     user: '',
     messages: [],
+    summary: [],
   },
   effects: [localStorageEffect(Storage.SMALL_FUN_CHAT)],
 });

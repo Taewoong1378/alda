@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Lottie from 'react-lottie';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 
 import { emotionState, emotionalChatState } from '@recoilState';
 import axios from 'axios';
@@ -26,8 +26,6 @@ interface SecondProps {
 }
 
 export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }: SecondProps) => {
-  const lottieRef = useRef();
-
   const router = useRouter();
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -38,6 +36,8 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
 
   const [emotion, setEmotion] = useRecoilState(emotionState);
   const [chat, setChat] = useRecoilState(emotionalChatState);
+  const resetEmotionalChat = useResetRecoilState(emotionalChatState);
+  const resetEmotionInfo = useResetRecoilState(emotionState);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -133,22 +133,18 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
         },
       ],
       chat: [
-        ...user.chat,
+        ...user.emotionalChat,
         {
           messages: chat.messages,
           createdAt: new Date(),
-        },
-      ],
-      image: [
-        ...user.image,
-        {
           image: data.image,
-          createdAt: new Date(),
         },
       ],
     });
 
     resetUser();
+    resetEmotionalChat();
+    resetEmotionInfo();
   };
 
   const defaultOptions = {
@@ -329,6 +325,8 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
                         content: res[0].content,
                       },
                     ],
+                    image: '',
+                    summary: [],
                     createdAt: new Date(),
                   }));
                 });

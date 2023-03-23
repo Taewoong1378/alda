@@ -33,7 +33,7 @@ export const ChatEntry = () => {
   useEffect(() => {
     if (user) {
       setIsAlreadyChatToday(
-        !!user.chat?.filter(v => {
+        !!user.emotionalChat?.filter(v => {
           if (v.createdAt) {
             return (
               convertDateToYYYYMMDD(convertTimestampToDate(v.createdAt)) ===

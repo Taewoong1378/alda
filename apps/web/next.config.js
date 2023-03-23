@@ -8,7 +8,10 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'styles')],
   },
   images: {
-    domains: ['firebasestorage.googleapis.com'],
+    domains: [
+      'firebasestorage.googleapis.com',
+      'oaidalleapiprodscus.blob.core.windows.net',
+    ],
   },
   i18n: {
     locales: ['ko'],
