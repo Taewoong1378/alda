@@ -21,7 +21,7 @@ export const ChatSummary = ({ date }: { date: string }) => {
   return (
     <>
       <Header title='Emotional Chat' />
-      <div className='px-27'>
+      <div className='px-27 pb-50'>
         <div className='pt-80'>
           <AnswerBubble
             answer={

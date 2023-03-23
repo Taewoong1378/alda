@@ -58,7 +58,7 @@ export const Feeling = ({ date }: { date: string }) => {
 
     return (
       <div
-        className='border-secondary-101 bg-primary-bg mt-22 flex h-[340px] w-full flex-col items-center justify-center rounded-[25px] border-[2px] bg-opacity-30'
+        className='border-secondary-101 bg-primary-bg mt-22 flex h-[340px] w-full flex-col items-center justify-center rounded-[25px] border-[2px] bg-opacity-30 px-16'
         onClick={() => setIsSelected(!isSelected)}>
         <div className='mb-50 text-secondary-101 text-AX1-Subhead'>Keyword</div>
         <div className='gap-13 flex flex-row flex-wrap items-center'>

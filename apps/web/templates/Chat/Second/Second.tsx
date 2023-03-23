@@ -122,6 +122,11 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
 
     const docRef = doc(db, 'User', user.uid);
 
+    await axios.post(`${BACKEND_URL}/save/`, {
+      messages: chat.messages,
+      user_id: user.uid,
+    });
+
     const { data } = await axios.post(`${BACKEND_URL}/image/`, {
       messages: chat.messages,
       user_id: user.uid,
@@ -162,6 +167,16 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice',
     },
+  };
+
+  const renderAnswerIcon = () => {
+    if (isLoading) return null;
+
+    if (isRecording) {
+      return <Lottie options={defaultOptions} style={{ height: 100, width: 120 }} />;
+    }
+
+    return <Button text='Answer' className='mb-16 w-full' />;
   };
 
   useEffect(() => {
@@ -351,7 +366,7 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
         </div>
         {isSecondQuestionAnswered && (
           <div className='bottom-30 fixed left-1/2 flex -translate-x-1/2 flex-col items-center'>
-            <>
+            <div className='w-full'>
               <div
                 className={classNames(isLoading && 'pointer-events-none')}
                 onClick={() => {
@@ -362,19 +377,14 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
                     startRecording();
                   }
                 }}>
-                <Lottie
-                  options={defaultOptions}
-                  style={{ height: 100, width: 120 }}
-                  isStopped={!isRecording}
-                />
+                {renderAnswerIcon()}
               </div>
-              <button
-                className='disabled:bg-grey-1 disabled:border-grey-1 text-AX1-Subhead enabled:border-grey-6 enabled:text-grey-6 pr-34 flex flex-row items-center rounded-[50px] border-[2px] bg-white py-3 pl-40 disabled:border-opacity-0 disabled:bg-opacity-30'
-                onClick={finishChatting}>
-                <div className='whitespace-nowrap'>Chat End</div>
-                <Icon icon='RightDirectionSmall' size={20} color='black' />
-              </button>
-            </>
+              <Button
+                text='END chat'
+                disabled={chat.messages.length < 4}
+                onClick={finishChatting}
+              />
+            </div>
           </div>
         )}
       </motion.div>
