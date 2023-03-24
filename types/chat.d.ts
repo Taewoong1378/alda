@@ -15,7 +15,6 @@ interface FunChat {
   createdAt?: Date;
   user: string;
   messages: Messages;
-  summary: string[];
 }
 
 interface ChatRequest {

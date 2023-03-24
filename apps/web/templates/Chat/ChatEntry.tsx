@@ -97,10 +97,7 @@ export const ChatEntry = () => {
         </motion.div>
         <motion.div
           onClick={() => {
-            if (
-              localStorage.getItem(Storage.EMOTIONAL_CHAT) ||
-              localStorage.getItem(Storage.EMOTION)
-            ) {
+            if (localStorage.getItem(Storage.SMALL_FUN_CHAT)) {
               setModalVisible(true);
               setModalType('fun');
               return;

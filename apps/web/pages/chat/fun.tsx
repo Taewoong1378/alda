@@ -6,13 +6,12 @@ export default function FunnyChatPage() {
   const { height } = useWindowSize();
 
   return (
-    <>
-      <main
-        style={{
-          height,
-        }}>
-        <FunnyChat />
-      </main>
-    </>
+    <main
+      className='bg-primary-bg'
+      style={{
+        height,
+      }}>
+      <FunnyChat />
+    </main>
   );
 }

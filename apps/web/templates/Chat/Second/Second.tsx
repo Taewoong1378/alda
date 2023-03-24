@@ -2,19 +2,19 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Lottie from 'react-lottie';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
-import { emotionState, emotionalChatState } from '@recoilState';
+import { emotionalChatState, emotionState } from '@recoilState';
 import axios from 'axios';
 import classNames from 'classnames';
 import { doc, updateDoc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 
-import { Button, Chip, Loading as FullLoading, Icon, Portal } from '@components';
+import { Button, Chip, Icon, Loading as FullLoading, Portal } from '@components';
 
 import { db } from '@config';
 
 import recordingAnimation from '@assets/lottie/recording.json';
-import { BACKEND_URL, HEADER_HEIGHT, detailMood } from '@constants';
+import { BACKEND_URL, detailMood, HEADER_HEIGHT } from '@constants';
 import { useGetProfile, useWindowSize } from '@hooks';
 
 import { AnswerBubble, QuestionBubble } from '../components';
@@ -130,7 +130,6 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
     const { data } = await axios.post(`${BACKEND_URL}/image/`, {
       messages: chat.messages,
       user_id: user.uid,
-      language: 'eng',
     });
 
     setImageLoading(false);

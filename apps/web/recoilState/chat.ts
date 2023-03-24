@@ -22,7 +22,6 @@ export const smallFunChatState = atom<FunChat>({
     createdAt: new Date(),
     user: '',
     messages: [],
-    summary: [],
   },
   effects: [localStorageEffect(Storage.SMALL_FUN_CHAT)],
 });

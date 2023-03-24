@@ -25,6 +25,7 @@ export const FunnyChat = () => {
   const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
   const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [isFirstQuestion, setIsFirstQuestion] = useState<boolean>(false);
 
   const [chat, setChat] = useRecoilState(smallFunChatState);
   const resetFunChat = useResetRecoilState(smallFunChatState);
@@ -55,13 +56,17 @@ export const FunnyChat = () => {
   };
 
   const sendAudioToServer = async () => {
+    if (!user) return;
+
     try {
       const audioBlob = new Blob([audioChunks[audioChunks.length - 1]], { type: 'audio/wav' });
 
       const formData = new FormData();
-      formData.append('messages', JSON.stringify(chat.messages));
+
+      if (!isFirstQuestion) {
+        formData.append('messages', JSON.stringify(chat.messages));
+      }
       formData.append('user_id', user?.uid as string);
-      formData.append('language', 'eng');
       formData.append('audio', audioBlob, 'recording.wav');
 
       const config = {
@@ -71,17 +76,24 @@ export const FunnyChat = () => {
       };
 
       // TODO: API 변경
-      const response = await axios.post(`${BACKEND_URL}/emotion/`, formData, {
+      const response = await axios.post(`${BACKEND_URL}/fun/`, formData, {
         ...config,
       });
       setIsLoading(false);
-      setChat({ ...chat, messages: [...chat.messages, ...response.data] });
+      setChat({ ...chat, user: user.uid, messages: [...chat.messages, ...response.data] });
     } catch (error) {
       console.error(error);
     }
   };
 
   const startNewChat = () => {
+    if (typeof window === 'undefined') return;
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+
     resetFunChat();
   };
 
@@ -146,10 +158,25 @@ export const FunnyChat = () => {
               }
             />
           </motion.div>
-        </motion.div>
-        {!!chat.messages.length &&
-          chat.messages.map((v, i) => {
-            if (i % 2 === 0) {
+          {!!chat.messages.length &&
+            chat.messages.map((v, i) => {
+              if (i % 2 === 0) {
+                return (
+                  <motion.div
+                    key={i}
+                    className='mt-31'
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 1 }}
+                    exit={{ opacity: 0, x: -10 }}>
+                    <QuestionBubble
+                      isMain={true}
+                      question={<div className='text-AX1-Subhead'>{v.content}</div>}
+                    />
+                  </motion.div>
+                );
+              }
+
               return (
                 <motion.div
                   key={i}
@@ -158,32 +185,20 @@ export const FunnyChat = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 1 }}
                   exit={{ opacity: 0, x: -10 }}>
-                  <QuestionBubble
-                    isMain={true}
-                    question={<div className='text-AX1-Subhead'>{v.content}</div>}
-                  />
+                  <AnswerBubble answer={<div className='text-AX1-Subhead'>{v.content}</div>} />
                 </motion.div>
               );
-            }
-
-            return (
-              <motion.div
-                key={i}
-                className='mt-31'
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1 }}
-                exit={{ opacity: 0, x: -10 }}>
-                <AnswerBubble answer={<div className='text-AX1-Subhead'>{v.content}</div>} />
-              </motion.div>
-            );
-          })}
-        {isLoading && <Loading />}
+            })}
+          {isLoading && <Loading />}
+        </motion.div>
+        <div ref={scrollRef} />
         <div className='bottom-30 fixed left-1/2 flex -translate-x-1/2 flex-col items-center'>
           <div className='w-full'>
             <div
               className={classNames(isLoading && 'pointer-events-none')}
               onClick={() => {
+                if (!chat.messages.length) setIsFirstQuestion(true);
+
                 if (isRecording) {
                   stopRecording();
                   setIsLoading(true);
