@@ -17,7 +17,7 @@ export default function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const test = async () => {
-    const result = await axios.get('https://rgurdygvq7.execute-api.ap-northeast-2.amazonaws.com');
+    const result = await axios.get('https://rgurdygvq7.execute-api.ap-northeast-2.amazonaws.com/');
     console.log('result', result);
   };
 
