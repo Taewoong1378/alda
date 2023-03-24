@@ -17,9 +17,12 @@ export const Settings = () => {
   };
 
   return (
-    <main className='flex h-screen flex-col items-center justify-center'>
-      <h1 className='text-2xl font-bold'>Settings Page</h1>
-      <button onClick={logout}>로그아웃</button>
+    <main className='flex h-screen flex-col justify-center'>
+      <div className='h-100' />
+      <div className='bg-primary-100 pl-35 h-full w-[70%] rounded-tr-[50px] bg-opacity-50 pt-12'>
+        <div className='text-[14px] font-bold'>account settings</div>
+        <button onClick={logout}>로그아웃</button>
+      </div>
     </main>
   );
 };
