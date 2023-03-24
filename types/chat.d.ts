@@ -28,7 +28,7 @@ interface ChatRequest {
     | DepressedDetail
     | AngryDetail
   )[];
-  lang: 'ko' | 'eng';
+  lang?: 'ko' | 'eng';
 }
 
 interface ChatResponse {

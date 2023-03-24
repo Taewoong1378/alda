@@ -117,7 +117,7 @@ export const ChatEntry = () => {
         <Portal onClickBackground={() => setModalVisible(false)}>
           <div
             style={{
-              width: width - 70,
+              width: width > 600 ? 530 : width - 70,
             }}
             className='absolute-center flex justify-center'
             onClick={() => setModalVisible(false)}>
@@ -128,7 +128,7 @@ export const ChatEntry = () => {
               <div className='mt-4 text-center'>Do you want to continue last conversation?</div>
               <div className='mt-16 flex w-full flex-row items-center justify-evenly border-t-[0.5px] border-[rgba(60,60,67,0.36)]'>
                 <div
-                  className='w-full border-r-[0.5px] border-[rgba(60,60,67,0.36)] px-16 py-11 text-center text-[17px] text-[#007AFF]'
+                  className='w-full cursor-pointer border-r-[0.5px] border-[rgba(60,60,67,0.36)] px-16 py-11 text-center text-[17px] text-[#007AFF]'
                   onClick={() => {
                     if (modalType === 'emotional') {
                       if (isAlreadyChatToday) {
@@ -149,7 +149,7 @@ export const ChatEntry = () => {
                   Start New
                 </div>
                 <div
-                  className='w-full px-16 py-11 text-center text-[17px] text-[#007AFF]'
+                  className='w-full cursor-pointer px-16 py-11 text-center text-[17px] text-[#007AFF]'
                   onClick={() => {
                     if (modalType === 'emotional') {
                       if (localStorage.getItem(Storage.EMOTIONAL_CHAT))
