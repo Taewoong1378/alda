@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import axios from 'axios';
 import { onAuthStateChanged } from 'firebase/auth';
 
 import { BottomNavbar, Loading } from '@components';
@@ -14,6 +15,15 @@ export default function HomePage() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const test = async () => {
+    const result = await axios.get('https://rgurdygvq7.execute-api.ap-northeast-2.amazonaws.com');
+    console.log('result', result);
+  };
+
+  useEffect(() => {
+    test();
+  }, []);
 
   useEffect(() => {
     onAuthStateChanged(auth, user => {
