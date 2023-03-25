@@ -44,6 +44,7 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [imgSrc, setImgSrc] = useState<string>('');
+  const [keywords, setKeywords] = useState<string[]>([]);
   const [imageLoading, setImageLoading] = useState<boolean>(false);
   const [isImageModalVisible, setIsImageModalVisible] = useState<boolean>(false);
 
@@ -81,6 +82,8 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
       formData.append('messages', JSON.stringify(chat.messages));
       formData.append('user_id', user?.uid as string);
       formData.append('language', 'eng');
+      formData.append('userfeeling_big', JSON.stringify(emotion.big));
+      formData.append('userfeeling_small', JSON.stringify(emotion.small));
       formData.append('audio', audioBlob, 'recording.wav');
 
       const config = {
@@ -122,11 +125,6 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
 
     const docRef = doc(db, 'User', user.uid);
 
-    await axios.post(`${BACKEND_URL}/save/`, {
-      messages: chat.messages,
-      user_id: user.uid,
-    });
-
     const { data } = await axios.post(`${BACKEND_URL}/image/`, {
       messages: chat.messages,
       user_id: user.uid,
@@ -134,6 +132,17 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
 
     setImageLoading(false);
     setImgSrc(data.image);
+    setKeywords(data.keywords);
+
+    await axios.post(`${BACKEND_URL}/save/`, {
+      messages: chat.messages,
+      user_id: user.uid,
+      image: data.image,
+      summary: data.keywords,
+      chat_type: 'emotion',
+      userfeeling_big: emotion.big,
+      userfeeling_small: emotion.small,
+    });
 
     await updateDoc(docRef, {
       emotion: [
@@ -150,8 +159,7 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
           messages: chat.messages,
           createdAt: new Date(),
           image: data.image,
-          // summary: data.summary,
-          summary: [],
+          summary: data.keywords,
         },
       ],
     });
@@ -393,12 +401,23 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
               width: width - 40,
             }}
             className='absolute-center flex flex-col justify-center'>
-            <img
-              src={imgSrc}
-              width={300}
-              height={300}
-              className='border-secondary-101 mx-auto rounded-[25px] border-[2px]'
-            />
+            <div className='border-secondary-101 mx-auto rounded-[25px] border-[2px]'>
+              <div className='text-AX1-Subhead text-secondary-101 bg-primary-bg py-15 rounded-t-[25px] text-center'>
+                Today's Chatting Summary
+              </div>
+              <img src={imgSrc} width='100%' height='100%' />
+              <div className='bg-primary-bg py-15 flex flex-row flex-wrap items-center justify-center gap-12 rounded-b-[25px]'>
+                {keywords.map((v, i) => {
+                  return (
+                    <div
+                      className='text-AX1-Caption1 text-primary-bg bg-secondary-101 rounded-[45px] px-14 py-8'
+                      key={i}>
+                      #{v}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
             <button
               className='text-AX1-Subhead border-secondary-101 pr-34 mt-30 rounded-[50px] border-[2px] bg-white py-9 pl-40'
               onClick={() => {

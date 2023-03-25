@@ -7,7 +7,6 @@ import { Storage } from '@constants';
 export const emotionalChatState = atom<EmotionalChat>({
   key: 'emotionalChatState',
   default: {
-    createdAt: new Date(),
     user: '',
     messages: [],
     image: '',
@@ -19,7 +18,6 @@ export const emotionalChatState = atom<EmotionalChat>({
 export const smallFunChatState = atom<FunChat>({
   key: 'smallFunChatState',
   default: {
-    createdAt: new Date(),
     user: '',
     messages: [],
   },

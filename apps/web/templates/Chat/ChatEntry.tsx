@@ -47,13 +47,19 @@ export const ChatEntry = () => {
 
   useEffect(() => {
     if (smallFunChat.createdAt) {
-      if (convertDateToYYYYMMDD(smallFunChat.createdAt) !== convertDateToYYYYMMDD(new Date())) {
+      if (
+        convertDateToYYYYMMDD(new Date(smallFunChat.createdAt)) !==
+        convertDateToYYYYMMDD(new Date())
+      ) {
         return resetSmallFunChat();
       }
     }
 
     if (emotionalChat.createdAt) {
-      if (convertDateToYYYYMMDD(emotionalChat.createdAt) !== convertDateToYYYYMMDD(new Date())) {
+      if (
+        convertDateToYYYYMMDD(new Date(emotionalChat.createdAt)) !==
+        convertDateToYYYYMMDD(new Date())
+      ) {
         return resetEmotionalChat();
       }
     }

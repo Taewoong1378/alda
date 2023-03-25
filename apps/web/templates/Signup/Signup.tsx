@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import classNames from 'classnames';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 
@@ -32,10 +32,6 @@ export const SignUp = () => {
       await createUserWithEmailAndPassword(auth, email, password);
 
       if (auth.currentUser) {
-        await updateProfile(auth.currentUser, {
-          displayName: `${firstName} ${lastName}`,
-        });
-
         await setDoc(doc(db, 'User', auth.currentUser.uid), {
           email,
           firstName,
