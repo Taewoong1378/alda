@@ -13,8 +13,8 @@ import recordingAnimation from '@assets/lottie/recording.json';
 import { BACKEND_URL, HEADER_HEIGHT } from '@constants';
 import { useGetProfile, useWindowSize } from '@hooks';
 
-import { Loading } from './Second/components';
 import { AnswerBubble, QuestionBubble } from './components';
+import { Loading } from './Second/components';
 
 export const FunnyChat = () => {
   const { user } = useGetProfile();
@@ -160,7 +160,7 @@ export const FunnyChat = () => {
           </motion.div>
           {!!chat.messages.length &&
             chat.messages.map((v, i) => {
-              if (i % 2 === 0) {
+              if (i % 2 === 1) {
                 return (
                   <motion.div
                     key={i}
