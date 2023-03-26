@@ -387,7 +387,7 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
               </div>
               <Button
                 text='END chat'
-                disabled={chat.messages.length < 4}
+                disabled={chat.messages.length < 4 || isLoading || isRecording}
                 onClick={finishChatting}
               />
             </div>
