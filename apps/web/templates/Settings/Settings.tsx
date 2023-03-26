@@ -17,7 +17,7 @@ export const Settings = () => {
   };
 
   return (
-    <main className='flex h-screen flex-col justify-center'>
+    <main className='relative flex h-screen flex-col justify-center'>
       <div className='h-100' />
       <div className='bg-primary-100 h-full w-[70%] rounded-tr-[50px] bg-opacity-50 pt-12'>
         <div className='pl-35 text-[14px] font-bold'>notice board</div>
