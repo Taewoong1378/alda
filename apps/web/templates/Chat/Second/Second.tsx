@@ -287,6 +287,34 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
             chat.messages.map((v, i) => {
               if (i % 2 === 0) {
                 return (
+                  <>
+                    <div ref={scrollRef} />
+                    <motion.div
+                      key={i}
+                      className='mt-31'
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={Object.assign(
+                        { duration: 1 },
+                        JSON.parse(router.query.hasChatInfo as string)
+                          ? {
+                              delay: 1.5,
+                            }
+                          : {},
+                      )}
+                      exit={{ opacity: 0, x: -10 }}>
+                      <QuestionBubble
+                        isMain={true}
+                        question={<div className='text-AX1-Subhead'>{v.content}</div>}
+                      />
+                    </motion.div>
+                  </>
+                );
+              }
+
+              return (
+                <>
+                  <div ref={scrollRef} />
                   <motion.div
                     key={i}
                     className='mt-31'
@@ -301,36 +329,13 @@ export const Second = ({ isSecondQuestionAnswered, setIsSecondQuestionAnswered }
                         : {},
                     )}
                     exit={{ opacity: 0, x: -10 }}>
-                    <QuestionBubble
-                      isMain={true}
-                      question={<div className='text-AX1-Subhead'>{v.content}</div>}
-                    />
+                    <AnswerBubble answer={<div className='text-AX1-Subhead'>{v.content}</div>} />
                   </motion.div>
-                );
-              }
-
-              return (
-                <motion.div
-                  key={i}
-                  className='mt-31'
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={Object.assign(
-                    { duration: 1 },
-                    JSON.parse(router.query.hasChatInfo as string)
-                      ? {
-                          delay: 1.5,
-                        }
-                      : {},
-                  )}
-                  exit={{ opacity: 0, x: -10 }}>
-                  <AnswerBubble answer={<div className='text-AX1-Subhead'>{v.content}</div>} />
-                </motion.div>
+                </>
               );
             })}
           {isLoading && <Loading />}
         </motion.div>
-        <div ref={scrollRef} />
         <div className='fixed left-1/2 bottom-60 flex -translate-x-1/2 flex-col items-center'>
           {!isSecondQuestionAnswered && (
             <Button
